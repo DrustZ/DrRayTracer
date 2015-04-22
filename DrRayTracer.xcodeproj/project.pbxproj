@@ -1,0 +1,384 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DC8FEE391AE7B1D000FCDE49 /* DrGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE371AE7B1D000FCDE49 /* DrGeometry.cpp */; };
+		DC8FEE3C1AE7B1E800FCDE49 /* DrSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE3A1AE7B1E800FCDE49 /* DrSphere.cpp */; };
+		DC8FEE3F1AE7B1FE00FCDE49 /* DrTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE3D1AE7B1FE00FCDE49 /* DrTexture.cpp */; };
+		DC8FEE421AE7B21100FCDE49 /* DrUniformTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE401AE7B21100FCDE49 /* DrUniformTexture.cpp */; };
+		DC8FEE451AE7B21F00FCDE49 /* DrLighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE431AE7B21F00FCDE49 /* DrLighter.cpp */; };
+		DC8FEE481AE7B23600FCDE49 /* DrPhongShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE461AE7B23600FCDE49 /* DrPhongShader.cpp */; };
+		DC8FEE4B1AE7B24200FCDE49 /* DrPnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE491AE7B24200FCDE49 /* DrPnt.cpp */; };
+		DC8FEE4E1AE7B24D00FCDE49 /* DrRay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE4C1AE7B24D00FCDE49 /* DrRay.cpp */; };
+		DC8FEE511AE7B25B00FCDE49 /* DrMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE4F1AE7B25B00FCDE49 /* DrMath.cpp */; };
+		DC8FEE541AE7B26B00FCDE49 /* DrScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE521AE7B26B00FCDE49 /* DrScene.cpp */; };
+		DC8FEE571AE7B27400FCDE49 /* DrColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE551AE7B27400FCDE49 /* DrColor.cpp */; };
+		DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE581AE7BF3100FCDE49 /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DC8FEE221AE7B12E00FCDE49 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DC8FEE241AE7B12E00FCDE49 /* DrRayTracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DrRayTracer; sourceTree = BUILT_PRODUCTS_DIR; };
+		DC8FEE371AE7B1D000FCDE49 /* DrGeometry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrGeometry.cpp; sourceTree = "<group>"; };
+		DC8FEE381AE7B1D000FCDE49 /* DrGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrGeometry.h; sourceTree = "<group>"; };
+		DC8FEE3A1AE7B1E800FCDE49 /* DrSphere.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrSphere.cpp; sourceTree = "<group>"; };
+		DC8FEE3B1AE7B1E800FCDE49 /* DrSphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrSphere.h; sourceTree = "<group>"; };
+		DC8FEE3D1AE7B1FE00FCDE49 /* DrTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrTexture.cpp; sourceTree = "<group>"; };
+		DC8FEE3E1AE7B1FE00FCDE49 /* DrTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrTexture.h; sourceTree = "<group>"; };
+		DC8FEE401AE7B21100FCDE49 /* DrUniformTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrUniformTexture.cpp; sourceTree = "<group>"; };
+		DC8FEE411AE7B21100FCDE49 /* DrUniformTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrUniformTexture.h; sourceTree = "<group>"; };
+		DC8FEE431AE7B21F00FCDE49 /* DrLighter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrLighter.cpp; sourceTree = "<group>"; };
+		DC8FEE441AE7B21F00FCDE49 /* DrLighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrLighter.h; sourceTree = "<group>"; };
+		DC8FEE461AE7B23600FCDE49 /* DrPhongShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrPhongShader.cpp; sourceTree = "<group>"; };
+		DC8FEE471AE7B23600FCDE49 /* DrPhongShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrPhongShader.h; sourceTree = "<group>"; };
+		DC8FEE491AE7B24200FCDE49 /* DrPnt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrPnt.cpp; sourceTree = "<group>"; };
+		DC8FEE4A1AE7B24200FCDE49 /* DrPnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrPnt.h; sourceTree = "<group>"; };
+		DC8FEE4C1AE7B24D00FCDE49 /* DrRay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrRay.cpp; sourceTree = "<group>"; };
+		DC8FEE4D1AE7B24D00FCDE49 /* DrRay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrRay.h; sourceTree = "<group>"; };
+		DC8FEE4F1AE7B25B00FCDE49 /* DrMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrMath.cpp; sourceTree = "<group>"; };
+		DC8FEE501AE7B25B00FCDE49 /* DrMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrMath.h; sourceTree = "<group>"; };
+		DC8FEE521AE7B26B00FCDE49 /* DrScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrScene.cpp; sourceTree = "<group>"; };
+		DC8FEE531AE7B26B00FCDE49 /* DrScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrScene.h; sourceTree = "<group>"; };
+		DC8FEE551AE7B27400FCDE49 /* DrColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrColor.cpp; sourceTree = "<group>"; };
+		DC8FEE561AE7B27400FCDE49 /* DrColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrColor.h; sourceTree = "<group>"; };
+		DC8FEE581AE7BF3100FCDE49 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DC8FEE211AE7B12E00FCDE49 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DC8FEE1B1AE7B12E00FCDE49 = {
+			isa = PBXGroup;
+			children = (
+				DC8FEE2E1AE7B16E00FCDE49 /* DrRayTracer */,
+				DC8FEE251AE7B12E00FCDE49 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DC8FEE251AE7B12E00FCDE49 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DC8FEE241AE7B12E00FCDE49 /* DrRayTracer */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DC8FEE2E1AE7B16E00FCDE49 /* DrRayTracer */ = {
+			isa = PBXGroup;
+			children = (
+				DC8FEE2F1AE7B16E00FCDE49 /* general */,
+				DC8FEE301AE7B16E00FCDE49 /* geometry */,
+				DC8FEE311AE7B16E00FCDE49 /* include */,
+				DC8FEE581AE7BF3100FCDE49 /* main.cpp */,
+			);
+			path = DrRayTracer;
+			sourceTree = "<group>";
+		};
+		DC8FEE2F1AE7B16E00FCDE49 /* general */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = general;
+			sourceTree = "<group>";
+		};
+		DC8FEE301AE7B16E00FCDE49 /* geometry */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = geometry;
+			sourceTree = "<group>";
+		};
+		DC8FEE311AE7B16E00FCDE49 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				DC8FEE321AE7B16E00FCDE49 /* geometry */,
+				DC8FEE331AE7B16E00FCDE49 /* Lighter */,
+				DC8FEE341AE7B16E00FCDE49 /* structure */,
+				DC8FEE351AE7B16E00FCDE49 /* texture */,
+				DC8FEE461AE7B23600FCDE49 /* DrPhongShader.cpp */,
+				DC8FEE471AE7B23600FCDE49 /* DrPhongShader.h */,
+				DC8FEE491AE7B24200FCDE49 /* DrPnt.cpp */,
+				DC8FEE4A1AE7B24200FCDE49 /* DrPnt.h */,
+				DC8FEE4C1AE7B24D00FCDE49 /* DrRay.cpp */,
+				DC8FEE4D1AE7B24D00FCDE49 /* DrRay.h */,
+				DC8FEE4F1AE7B25B00FCDE49 /* DrMath.cpp */,
+				DC8FEE501AE7B25B00FCDE49 /* DrMath.h */,
+				DC8FEE521AE7B26B00FCDE49 /* DrScene.cpp */,
+				DC8FEE531AE7B26B00FCDE49 /* DrScene.h */,
+				DC8FEE551AE7B27400FCDE49 /* DrColor.cpp */,
+				DC8FEE561AE7B27400FCDE49 /* DrColor.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		DC8FEE321AE7B16E00FCDE49 /* geometry */ = {
+			isa = PBXGroup;
+			children = (
+				DC8FEE371AE7B1D000FCDE49 /* DrGeometry.cpp */,
+				DC8FEE381AE7B1D000FCDE49 /* DrGeometry.h */,
+				DC8FEE3A1AE7B1E800FCDE49 /* DrSphere.cpp */,
+				DC8FEE3B1AE7B1E800FCDE49 /* DrSphere.h */,
+			);
+			path = geometry;
+			sourceTree = "<group>";
+		};
+		DC8FEE331AE7B16E00FCDE49 /* Lighter */ = {
+			isa = PBXGroup;
+			children = (
+				DC8FEE431AE7B21F00FCDE49 /* DrLighter.cpp */,
+				DC8FEE441AE7B21F00FCDE49 /* DrLighter.h */,
+			);
+			path = Lighter;
+			sourceTree = "<group>";
+		};
+		DC8FEE341AE7B16E00FCDE49 /* structure */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = structure;
+			sourceTree = "<group>";
+		};
+		DC8FEE351AE7B16E00FCDE49 /* texture */ = {
+			isa = PBXGroup;
+			children = (
+				DC8FEE3D1AE7B1FE00FCDE49 /* DrTexture.cpp */,
+				DC8FEE3E1AE7B1FE00FCDE49 /* DrTexture.h */,
+				DC8FEE401AE7B21100FCDE49 /* DrUniformTexture.cpp */,
+				DC8FEE411AE7B21100FCDE49 /* DrUniformTexture.h */,
+			);
+			path = texture;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DC8FEE231AE7B12E00FCDE49 /* DrRayTracer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DC8FEE2B1AE7B12E00FCDE49 /* Build configuration list for PBXNativeTarget "DrRayTracer" */;
+			buildPhases = (
+				DC8FEE201AE7B12E00FCDE49 /* Sources */,
+				DC8FEE211AE7B12E00FCDE49 /* Frameworks */,
+				DC8FEE221AE7B12E00FCDE49 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DrRayTracer;
+			productName = DrRayTracer;
+			productReference = DC8FEE241AE7B12E00FCDE49 /* DrRayTracer */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DC8FEE1C1AE7B12E00FCDE49 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "明瑞";
+				TargetAttributes = {
+					DC8FEE231AE7B12E00FCDE49 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+				};
+			};
+			buildConfigurationList = DC8FEE1F1AE7B12E00FCDE49 /* Build configuration list for PBXProject "DrRayTracer" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DC8FEE1B1AE7B12E00FCDE49;
+			productRefGroup = DC8FEE251AE7B12E00FCDE49 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DC8FEE231AE7B12E00FCDE49 /* DrRayTracer */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DC8FEE201AE7B12E00FCDE49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DC8FEE421AE7B21100FCDE49 /* DrUniformTexture.cpp in Sources */,
+				DC8FEE451AE7B21F00FCDE49 /* DrLighter.cpp in Sources */,
+				DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */,
+				DC8FEE4B1AE7B24200FCDE49 /* DrPnt.cpp in Sources */,
+				DC8FEE3F1AE7B1FE00FCDE49 /* DrTexture.cpp in Sources */,
+				DC8FEE571AE7B27400FCDE49 /* DrColor.cpp in Sources */,
+				DC8FEE4E1AE7B24D00FCDE49 /* DrRay.cpp in Sources */,
+				DC8FEE3C1AE7B1E800FCDE49 /* DrSphere.cpp in Sources */,
+				DC8FEE541AE7B26B00FCDE49 /* DrScene.cpp in Sources */,
+				DC8FEE511AE7B25B00FCDE49 /* DrMath.cpp in Sources */,
+				DC8FEE391AE7B1D000FCDE49 /* DrGeometry.cpp in Sources */,
+				DC8FEE481AE7B23600FCDE49 /* DrPhongShader.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DC8FEE291AE7B12E00FCDE49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DC8FEE2A1AE7B12E00FCDE49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DC8FEE2C1AE7B12E00FCDE49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-lopencv_imgproc",
+					"-lopencv_core",
+					"-lopencv_highgui",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DC8FEE2D1AE7B12E00FCDE49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"-lopencv_imgproc",
+					"-lopencv_core",
+					"-lopencv_highgui",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DC8FEE1F1AE7B12E00FCDE49 /* Build configuration list for PBXProject "DrRayTracer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC8FEE291AE7B12E00FCDE49 /* Debug */,
+				DC8FEE2A1AE7B12E00FCDE49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DC8FEE2B1AE7B12E00FCDE49 /* Build configuration list for PBXNativeTarget "DrRayTracer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC8FEE2C1AE7B12E00FCDE49 /* Debug */,
+				DC8FEE2D1AE7B12E00FCDE49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DC8FEE1C1AE7B12E00FCDE49 /* Project object */;
+}
