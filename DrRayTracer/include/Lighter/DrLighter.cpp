@@ -7,3 +7,13 @@
 //
 
 #include "DrLighter.h"
+#include <ctime>
+
+#define random(x) (rand()%x)
+
+DrVector DrLighter::generateLighter(double r){
+    srand((int)time(0));
+    DrVector l_dir = DrVector(random(10),random(10),random(10));
+    l_dir = l_dir.getNormalize() * r;
+    return position + l_dir;
+}

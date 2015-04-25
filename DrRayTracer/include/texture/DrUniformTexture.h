@@ -10,13 +10,16 @@
 #define __DrRayTracer__DrUniformTexture__
 #include "DrTexture.h"
 
+/*
+ *处处一致的纹理
+ */
 class DrUniformTexture : public DrTexture {
     OpticalProperty m_property;
     
 public:
     DrUniformTexture(OpticalProperty &prpt) : m_property(prpt) {}
-    
-    void getProperty(DrVector& vec, OpticalProperty &property)
+
+    void getProperty(const DrVector& vec, OpticalProperty &property)
     {
         property = m_property;
     }

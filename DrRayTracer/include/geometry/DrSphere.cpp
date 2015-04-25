@@ -8,17 +8,26 @@
 
 #include "DrSphere.h"
 
-DrSphere::DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex) : center(cen), radius(r), DrGeometry(tex){}
+DrSphere::DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex, bool ref, double trans = 1.5) : center(cen), radius(r), DrGeometry(tex, ref, trans){}
 
-bool DrSphere::inside(DrVector& vec){
+bool DrSphere::inside(const DrVector& vec){
     DrVector dir = DrVector(vec, center);
     double dis = dir.modulus();
     if (getSign(fabs(dis - radius)) < 0)
         return true;
     return false;
 }
-        
-bool DrSphere::onface(DrVector& vec){
+
+bool DrSphere::rayInside(const DrRay& ray){
+    if (inside(ray.startpoint))
+        return true;
+    if (onface(ray.startpoint))
+        if (getNormal(ray.startpoint).dot(ray.direction) < 0)
+            return true;
+    return false;
+}
+
+bool DrSphere::onface(const DrVector& vec){
     DrVector dir = DrVector(vec, center);
     double dis = dir.modulus();
     if (getSign(fabs(dis - radius)) == 0)
@@ -26,7 +35,7 @@ bool DrSphere::onface(DrVector& vec){
     return false;
 }
         
-bool DrSphere::intersect(DrRay& ray){
+bool DrSphere::intersect(const DrRay& ray){
     if (inside(ray.startpoint)) return true;
     
     DrVector dir = DrVector(ray.startpoint, center);
@@ -42,7 +51,7 @@ bool DrSphere::intersect(DrRay& ray){
     return true;
 }
 
-double DrSphere::intersection(DrRay& ray){
+double DrSphere::intersection(const DrRay& ray){
     DrVector dir = DrVector(ray.startpoint, center);
     double tp = dir * ray.direction;
     double dis = dir.sqrModulus() - sqr(tp);
@@ -52,7 +61,33 @@ double DrSphere::intersection(DrRay& ray){
     else return tp + ts;
 }
 
-DrVector DrSphere::getNormal(DrVector& v){
-    return (center - v).getNormalize();
+void DrSphere::getAppearance(DrVector& vec, OpticalProperty& property){
+    double u,v;
+    DrVector nvec = DrVector(center, vec);
+    if (!getSign(nvec.x) && !getSign(nvec.y)){
+        m_texture->getProperty(nvec, property);
+    }
+    else {
+        u = div(atan2(nvec.y, nvec.x), 2 * 3.14159265358979);
+        v = div(asin(nvec.z / radius), 2 * 3.14159265358979);
+        m_texture->getProperty(DrVector(u,v,0), property);
+    }
 }
 
+DrVector DrSphere::getNormal(const DrVector& v){
+    return (v - center).getNormalize();
+}
+
+bool DrSphere::getRefraction(DrVector& refraction, const DrVector& point, 
+                              const DrVector& view, bool inside){
+    double factor = transparency;
+    if (inside) transparency = 1 / transparency;
+    DrVector normal = getNormal(point);
+    double cos1 = -view * normal;
+    double cos2 =  sqrt(1-1/sqr(factor)*(1-sqr(cos1)));
+    if (cos1 > 0 && cos2 > 0){
+        refraction = view;
+        refraction = refraction * (1/factor) - normal * (cos2 - 1/factor * cos1);
+        return true;
+    } else return false;
+}

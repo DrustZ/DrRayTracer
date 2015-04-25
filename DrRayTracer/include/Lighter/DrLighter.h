@@ -11,14 +11,18 @@
 
 #include "DrMath.h"
 
+/*
+ *光源类
+ */
 class DrLighter {
 public:
-    DrVector position;
-    DrColor color;
-    double intensity;
+    DrVector position;//光源位置
+    DrColor color;//光源颜色
+    double intensity;//光源强度
     
     DrLighter(DrVector &pos, DrColor &col, double inten) : position(pos), color(col), intensity(inten) {}
     
+    DrVector generateLighter(double r = 3);
 };
 
 #endif /* defined(__DrRayTracer__DrLighter__) */

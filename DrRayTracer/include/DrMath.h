@@ -212,12 +212,12 @@ struct DrVector
     }
     
     /**
-     *  以v为法向量，获得以本向量为入射向量时的反射向量
+     *  以v为法向量，获得以本向量负向量为入射向量时的反射向量
      *  注意：两向量必须为单位向量
      */
     DrVector reflection(DrVector const &v) const{
         assert(!getSign(this->modulus() - 1) && !getSign(v.modulus() - 1));
-        return DrVector(DrVector(v.x * dot(v)*2, v.y * dot(v)*2, v.z * dot(v)*2)+ *this);
+        return DrVector(DrVector(v.x * dot(v)*2, v.y * dot(v)*2, v.z * dot(v)*2) - *this);
     }
 };
 #endif /* defined(__DrRayTracer__DrMath__) */

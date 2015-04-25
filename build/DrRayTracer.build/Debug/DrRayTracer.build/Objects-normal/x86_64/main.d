@@ -9,8 +9,12 @@ dependencies: \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/DrRay.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrTexture.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/Lighter/DrLighter.h \
+  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/geometry/DrPlane.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/geometry/DrSphere.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrUniformTexture.h \
+  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrGridTexture.h \
+  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrWoodenTexture.h \
+  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrImageTexture.h \
   /usr/local/include/opencv2/imgproc/imgproc.hpp \
   /usr/local/include/opencv2/core/core.hpp \
   /usr/local/include/opencv2/core/types_c.h \

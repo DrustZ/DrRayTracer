@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>31296E27-540D-40D1-AACB-3B7517B33F69</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DrRayTracer</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>AD2A8FA872FA0A56DDC25EB9A9ECFD08B41BB04E</key>
+		<string>https://github.com/DrustZ/DrRayTracer.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DrRayTracer.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>AD2A8FA872FA0A56DDC25EB9A9ECFD08B41BB04E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/DrustZ/DrRayTracer.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>AD2A8FA872FA0A56DDC25EB9A9ECFD08B41BB04E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>AD2A8FA872FA0A56DDC25EB9A9ECFD08B41BB04E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DrRayTracer</string>
+		</dict>
+	</array>
+</dict>
+</plist>

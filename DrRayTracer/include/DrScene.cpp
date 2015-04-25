@@ -13,7 +13,7 @@
 //
 #include "DrScene.h"
 
-DrScene::DrScene(int dep, int weight, DrColor &ambinet) : max_dep(dep), min_weight(weight), m_ambient(ambinet){
+DrScene::DrScene(int dep, int weight,const DrColor &ambinet) : max_dep(dep), min_weight(weight), m_ambient(ambinet){
     objs = std::vector<DrPnt<DrGeometry> >();
     lights = std::vector<DrLighter>();
 }
@@ -21,7 +21,7 @@ DrScene::DrScene(int dep, int weight, DrColor &ambinet) : max_dep(dep), min_weig
 DrScene::~DrScene(){
 }
 
-DrColor DrScene::doRayTracing(DrRay &ray, double weight, int depth){
+DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth){
     if (depth > max_dep) return BLACK;
     if (weight < min_weight) return BLACK;
     
@@ -35,37 +35,56 @@ DrColor DrScene::doRayTracing(DrRay &ray, double weight, int depth){
      DrVector norm = pnt->getNormal(point);
     
     DrColor color;
-    
-    for (const auto &i: lights){
-        DrVector l_to_p = point - i.position;
-        double maxdis = l_to_p.modulus();
-        l_to_p.normalize();
-        
-        DrVector pos = i.position;
-        DrRay lray = DrRay(pos, l_to_p);
-        if (testShadow(lray, maxdis))
-            continue;
-        
-        color += DrPhongShader::get_shade(point, prop, norm, ray, i, m_ambient);
+//    std::cout << ray.direction << std::endl;
+    for (auto &i: lights){
+//        for (int j = 0; j < 5; ++j){
+//            DrLighter temp_lighter = i;
+////            temp_lighter.position = i.generateLighter();
+////            temp_lighter.intensity = i.intensity / 5;
+            DrVector l_to_p = point - i.position;
+            double maxdis = l_to_p.modulus();
+            l_to_p.normalize();
+            
+            DrVector pos = i.position;
+            DrRay lray = DrRay(pos, l_to_p);
+            if (testShadow(lray, maxdis)){
+                continue;
+            }
+            
+            color += DrPhongShader::get_shade(point, prop, norm, ray, i, m_ambient);
+        //}
     }
-    
+
+   if (prop.specular > 0 && pnt->getRef()){
+       DrVector ref = -ray.direction.reflection(-norm);
+       color += doRayTracing(DrRay(point, ref),
+                             weight * prop.specular, 1+depth) * prop.specular;
+   }
+   
+//    if (prop.transparency){
+//        DrVector trans;
+//        if (pnt->getRefraction(trans, point, ray.direction, pnt->rayInside(ray))){
+// //            std::cout << trans
+//            color += doRayTracing(DrRay(point,trans), weight * prop.transparency, depth + 1) * prop.transparency;
+//        }
+//    }
     color.setToRange();
 
     return color;
 }
 
-bool DrScene::testShadow(DrRay &ray, double max_dist){
+bool DrScene::testShadow(const DrRay &ray, double max_dist){
     for (const auto &i: objs){
         if (i->intersect(ray)){
             double dis = i->intersection(ray);
-            if (dis < max_dep)
+            if (getSign(dis-max_dist) < 0)
                 return true;
         }
     }
     return false;
 }
 
-double DrScene::getInsection(DrRay &ray, DrPnt<DrGeometry> &pnt){
+double DrScene::getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt){
     double mindis = std::numeric_limits<double>::max();
     for (const auto &i: objs){
         if (i->intersect(ray)){
@@ -85,12 +104,14 @@ void DrScene::getEyePosition(DrVector &e, DrVector &lookat, DrVector &up){
     u = up.cross(w).getNormalize();
     v = w.cross(u);
     eye = e;
-    //std::cout << w << u << v;
 }
 
-DrRay DrScene::transformToGlobal(int i, int j, double height){
-    DrVector vec = u * i + v * j + w * height;
-    //std::cout << vec << std::endl;
+DrRay DrScene::transformToGlobal(int x, int y, double height, 
+    int nx, int ny, double left, double right, double up, double down){
+    double us = left + (right - left) * ((double)x + 0.5) / nx;
+    double vs = down + (up - down) * ((double)y + 0.5) / ny;
+    DrVector vec = u * us + v * vs + w * height;
+//    std::cout << vec << std::endl;
     return DrRay(eye, vec);
 }
 

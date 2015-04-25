@@ -9,9 +9,14 @@
 #ifndef __DrRayTracer__DrScene__
 #define __DrRayTracer__DrScene__
 #include "DrPhongShader.h"
+#include "DrPlane.h"
 #include "DrSphere.h"
 #include "DrLighter.h"
 
+/*
+ *场景类
+ *一个场景即涵盖一张图片，包括各种必须要素
+ */
 class DrScene
 {
     std::vector<DrPnt<DrGeometry> > objs;
@@ -22,26 +27,52 @@ class DrScene
     
 public:
     
-    DrScene(int dep, int weight, DrColor &ambinet);
+    DrScene(int dep, int weight, const DrColor &ambinet);
     ~DrScene();
     
-    DrColor doRayTracing(DrRay &ray, double weight, int depth);
+    /*
+     *进行 光线追踪
+     */
+    DrColor doRayTracing(const DrRay &ray, double weight, int depth);
     
+    /*
+     *添加物体
+     */
     void addObj(DrPnt<DrGeometry> &obj){
         objs.push_back(obj);
     }
     
+    /*
+     *添加光源
+     */
     void addlights(DrLighter &light){
         lights.push_back(light);
     }
     
-    bool testShadow(DrRay &ray, double max_dist);
+    /*
+     *判断遮挡
+     *ray为光源到到该点的向量， max_dis 表示光源到该点的距离
+     */
+    bool testShadow(const DrRay &ray, double max_dist);
     
-    double getInsection(DrRay &ray, DrPnt<DrGeometry> &pnt);
+    /*
+     *获得交点 
+     *ray 为视线， pnt 为与实现相交的物体
+     *返回值为交点到视点的距离
+     */
+    double getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt);
     
+    /*
+     *获得相机位置，建立相机坐标系
+     */
     void getEyePosition(DrVector &e, DrVector &lookat, DrVector &up);
     
-    DrRay transformToGlobal(int i, int j, double height);
+    /*
+     * 针对相机坐标系，产生视线，并进行像素点到世界坐标的向量转换
+     * x 为 像素第 x 列， y 为 第y行， height 为 投射屏幕与小孔的距离， nx 表示 总列数， ny 表示 总行数
+     * left ， right， up， down 分别为 左右上下的坐标值
+     */
+    DrRay transformToGlobal(int x, int y, double height, int nx, int ny, double left, double right, double up, double down);
 };
 
 

@@ -16,17 +16,27 @@ class DrSphere: public DrGeometry {
     double radius;
     
 public:
-    DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex);
+    DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex, bool ref, double trans);
     
-    bool inside(DrVector& vec);
+    bool inside(const DrVector& vec);
     
-    bool onface(DrVector& vec);
+    bool rayInside(const DrRay& ray);
+
+    bool onface(const DrVector& vec);
     
-    bool intersect(DrRay& ray);
+    bool intersect(const DrRay& ray);
     
-    double intersection(DrRay& ray);
+    double intersection(const DrRay& ray);
     
-    DrVector getNormal(DrVector &v);
+    DrVector getNormal(const DrVector &v);
+    
+    bool getRefraction(DrVector& refraction, const DrVector& point, 
+                       const DrVector& view, bool inside);
+
+    /*
+     *获得材质
+     */
+    void getAppearance(DrVector& vec, OpticalProperty& property);
     
     void sayMyself() { std::cout << "class : sphere" << std::endl; }
     double getRadius() const
