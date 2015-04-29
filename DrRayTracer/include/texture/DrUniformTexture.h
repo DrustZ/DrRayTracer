@@ -19,6 +19,9 @@ class DrUniformTexture : public DrTexture {
 public:
     DrUniformTexture(OpticalProperty &prpt) : m_property(prpt) {}
 
+    int getClass()
+    { return 1; }
+    
     void getProperty(const DrVector& vec, OpticalProperty &property)
     {
         property = m_property;

@@ -32,19 +32,21 @@ public:
         
         //理想漫反射
         double cosin = point_to_light * warp_nrm;
-        if (cosin > 0)
+        if (cosin > 0){
             ret += app.diffuse * lighter.color
             * lighter.intensity * cosin;
-
+        }
+            
         //镜面反射光
         cosin = -ray.direction * point_to_light.reflection(warp_nrm);
-        if (cosin > 0)
+        if (cosin > 0){
             ret += lighter.color * lighter.intensity *
                     app.specular * pow(cosin, app.spec_exp);
+        }
         //环境光
-        ret += ambient_color * app.ambient;
+//        ret += ambient_color * app.ambient;
 
-        ret.setToRange();
+//        ret.setToRange();
         
 
         return ret;

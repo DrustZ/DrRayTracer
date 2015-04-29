@@ -55,19 +55,26 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth){
         //}
     }
 
-   if (prop.specular > 0 && pnt->getRef()){
-       DrVector ref = -ray.direction.reflection(-norm);
-       color += doRayTracing(DrRay(point, ref),
-                             weight * prop.specular, 1+depth) * prop.specular;
-   }
-   
-//    if (prop.transparency){
-//        DrVector trans;
-//        if (pnt->getRefraction(trans, point, ray.direction, pnt->rayInside(ray))){
-// //            std::cout << trans
-//            color += doRayTracing(DrRay(point,trans), weight * prop.transparency, depth + 1) * prop.transparency;
-//        }
-//    }
+//   if (prop.reflection > 0 && pnt->getRef()){
+//       DrVector ref = -ray.direction.reflection(-norm);
+//       color += doRayTracing(DrRay(point, ref),
+//                             weight * prop.reflection, 1+depth) * prop.reflection;
+//   }
+//    if (depth > 2) std::cout << "ca" << std::endl;
+    
+    if (prop.transparency){
+        DrVector trans;
+        if (pnt->getRefraction(trans, point, ray.direction, pnt->rayInside(ray))){
+//            std::cout << "depth" << depth << std::endl;
+            DrRay frecRay = DrRay(point,trans);
+            //Beer Law
+            double dist = pnt->intersection(frecRay); //计算光走过的距离
+            DrColor absor = pnt->getAbsorb() * 0.15 * -dist; //一个参数，与物体对光的吸收和路径长度的相反数呈正比
+            DrColor trans = DrColor( exp( absor.r ) , exp( absor.g ) , exp( absor.b ) ); //用指数函数，计算能通过的光的比例
+            
+            color += doRayTracing(frecRay, weight * prop.transparency, depth + 1) * prop.transparency * trans;
+        }
+    }
     color.setToRange();
 
     return color;

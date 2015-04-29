@@ -37,7 +37,7 @@ bool DrSphere::onface(const DrVector& vec){
         
 bool DrSphere::intersect(const DrRay& ray){
     if (inside(ray.startpoint)) return true;
-    
+    if (rayInside(ray)) return true;
     DrVector dir = DrVector(ray.startpoint, center);
     float tp = dir * ray.direction;
     
@@ -56,9 +56,9 @@ double DrSphere::intersection(const DrRay& ray){
     double tp = dir * ray.direction;
     double dis = dir.sqrModulus() - sqr(tp);
     double ts = sqrt(sqr(radius) - dis);
-    if (!inside(ray.startpoint)) 
-        return tp - ts;
-    else return tp + ts;
+    if (inside(ray.startpoint) || onface(ray.startpoint))
+        return tp + ts;
+    else return tp - ts;
 }
 
 void DrSphere::getAppearance(DrVector& vec, OpticalProperty& property){
@@ -81,13 +81,18 @@ DrVector DrSphere::getNormal(const DrVector& v){
 bool DrSphere::getRefraction(DrVector& refraction, const DrVector& point, 
                               const DrVector& view, bool inside){
     double factor = transparency;
-    if (inside) transparency = 1 / transparency;
+    if (inside) factor = 1 / factor;
+//    std::cout <<factor <<std::endl;
+
     DrVector normal = getNormal(point);
+    if (inside) normal = -normal;
     double cos1 = -view * normal;
+//    std::cout << "cos1  " << cos1 << std::endl;
     double cos2 =  sqrt(1-1/sqr(factor)*(1-sqr(cos1)));
-    if (cos1 > 0 && cos2 > 0){
+    if (cos2 > 0){
         refraction = view;
         refraction = refraction * (1/factor) - normal * (cos2 - 1/factor * cos1);
         return true;
-    } else return false;
+    } else
+        return false;
 }

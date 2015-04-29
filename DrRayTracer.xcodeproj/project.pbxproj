@@ -11,7 +11,6 @@
 		DC8FEE391AE7B1D000FCDE49 /* DrGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE371AE7B1D000FCDE49 /* DrGeometry.cpp */; };
 		DC8FEE3C1AE7B1E800FCDE49 /* DrSphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE3A1AE7B1E800FCDE49 /* DrSphere.cpp */; };
 		DC8FEE451AE7B21F00FCDE49 /* DrLighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE431AE7B21F00FCDE49 /* DrLighter.cpp */; };
-		DC8FEE4B1AE7B24200FCDE49 /* DrPnt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE491AE7B24200FCDE49 /* DrPnt.cpp */; };
 		DC8FEE4E1AE7B24D00FCDE49 /* DrRay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE4C1AE7B24D00FCDE49 /* DrRay.cpp */; };
 		DC8FEE541AE7B26B00FCDE49 /* DrScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE521AE7B26B00FCDE49 /* DrScene.cpp */; };
 		DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE581AE7BF3100FCDE49 /* main.cpp */; };
@@ -45,7 +44,6 @@
 		DC8FEE431AE7B21F00FCDE49 /* DrLighter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrLighter.cpp; sourceTree = "<group>"; };
 		DC8FEE441AE7B21F00FCDE49 /* DrLighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrLighter.h; sourceTree = "<group>"; };
 		DC8FEE471AE7B23600FCDE49 /* DrPhongShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrPhongShader.h; sourceTree = "<group>"; };
-		DC8FEE491AE7B24200FCDE49 /* DrPnt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrPnt.cpp; sourceTree = "<group>"; };
 		DC8FEE4A1AE7B24200FCDE49 /* DrPnt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrPnt.h; sourceTree = "<group>"; };
 		DC8FEE4C1AE7B24D00FCDE49 /* DrRay.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrRay.cpp; sourceTree = "<group>"; };
 		DC8FEE4D1AE7B24D00FCDE49 /* DrRay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrRay.h; sourceTree = "<group>"; };
@@ -122,7 +120,6 @@
 				DC8FEE341AE7B16E00FCDE49 /* structure */,
 				DC8FEE351AE7B16E00FCDE49 /* texture */,
 				DC8FEE471AE7B23600FCDE49 /* DrPhongShader.h */,
-				DC8FEE491AE7B24200FCDE49 /* DrPnt.cpp */,
 				DC8FEE4A1AE7B24200FCDE49 /* DrPnt.h */,
 				DC8FEE4C1AE7B24D00FCDE49 /* DrRay.cpp */,
 				DC8FEE4D1AE7B24D00FCDE49 /* DrRay.h */,
@@ -238,7 +235,6 @@
 				DC8FEE451AE7B21F00FCDE49 /* DrLighter.cpp in Sources */,
 				DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */,
 				DCC0DEAA1AEA825900FACC4A /* DrGridTexture.cpp in Sources */,
-				DC8FEE4B1AE7B24200FCDE49 /* DrPnt.cpp in Sources */,
 				DC8FEE4E1AE7B24D00FCDE49 /* DrRay.cpp in Sources */,
 				DC8FEE3C1AE7B1E800FCDE49 /* DrSphere.cpp in Sources */,
 				DC8FEE541AE7B26B00FCDE49 /* DrScene.cpp in Sources */,

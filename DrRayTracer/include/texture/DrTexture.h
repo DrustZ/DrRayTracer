@@ -17,19 +17,19 @@
  */
 struct OpticalProperty {
     DrColor diffuse = BLACK;//漫反射系数
-    double specular = 0,//镜面反射系数
-    spec_exp = 1,//镜面反射指数
+    DrColor specular = BLACK;//高光反射系数
+    double reflection = 0;//镜面反射系数
+    double spec_exp = 1,//镜面反射指数
     transparency = 0,//透明度
     ambient = 0;//环境反射系数
 };
-
 
 /*
  *纹理类
  */
 class DrTexture {
 public:
-
+    virtual int getClass() = 0;
     virtual void getProperty(const DrVector& vec, OpticalProperty &property) = 0;
     
 };

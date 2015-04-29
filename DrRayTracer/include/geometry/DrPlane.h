@@ -49,6 +49,8 @@ public:
     bool getRefraction(DrVector& refraction, const DrVector& point,
                                const DrVector& view, bool inside);
     
+    void getAppearance(DrVector& vec, OpticalProperty& property);
+
 private:
     DrVector normal;
     double d;

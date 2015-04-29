@@ -33,6 +33,17 @@ bool DrPlane::intersect(const DrRay& ray){
     return true;
 }
 
+
+void DrPlane::getAppearance(DrVector& vec, OpticalProperty& property){
+    if (m_texture->getClass() > 0)
+        m_texture->getProperty(vec, property);
+    else {
+        double u,v;
+        u = (vec.x + 500)/1000;
+        v = (vec.y + 500)/1000;
+        m_texture->getProperty(DrVector(u,v,0), property);
+    }
+}
 /*
  *获得对应光线的折射光线，如果折射光线为全反射或者无折射则返回false
  *refraction：折射光线  point 入射点 view 视线的方向 inside 入射光线是否在几何体内

@@ -25,6 +25,9 @@ public:
                    const OpticalProperty &base,
                    double xs, double ys);
     
+    int getClass()
+    { return -1; }
+    
     void getProperty(const DrVector& vec, OpticalProperty &property);
 };
 #endif /* defined(__DrRayTracer__DrImageTexture__) */

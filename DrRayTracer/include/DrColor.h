@@ -10,7 +10,7 @@
 #define __DrRayTracer__DrColor__
 
 #define DrEPS 1e-6
-
+#include <iostream>
 static inline bool range(float n){
     return (n >= 0) && (n <= 1);
 }
@@ -61,10 +61,16 @@ struct DrColor{
         return *this;
     }
     
+    friend std::ostream&
+    operator << (std::ostream& os, const DrColor& d) {
+        return os << " (" << d.r << "," << d.g << "," << d.b << ") ";
+    }
+    
     /**
      *  将颜色映射到[0 1]范围内
      */
     void setToRange(){
+        if (checkRange()) return;
         float small;
         if (r < g) small = r;
         else small = g;

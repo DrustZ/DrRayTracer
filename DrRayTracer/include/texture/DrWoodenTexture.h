@@ -22,6 +22,9 @@ class DrWoodenTexture : public DrTexture {
     wood_deep(deep), wood_shallow(shallow),
     m_length(length), m_width(width){}
 
+    int getClass()
+    { return 3; }
+    
     void getProperty(const DrVector& vec, OpticalProperty &property);
 };
 #endif /* defined(__DrRayTracer__DrWoodenTexture__) */

@@ -67,6 +67,12 @@ public:
     virtual void getAppearance(DrVector& vec, OpticalProperty& property)
     { m_texture->getProperty(vec, property); }
 
+    void setAbsorb(DrColor c)
+    { absorb = c; }
+    
+    DrColor getAbsorb()
+    { return absorb; }
+    
     /*
      *是否反射
      */
@@ -83,6 +89,8 @@ protected:
     DrPnt<DrTexture> m_texture;
     bool reflective;
     double transparency;
+    DrColor absorb;
+
 };
 
 #endif /* defined(__DrRayTracer__DrGeometry__) */

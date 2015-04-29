@@ -22,6 +22,9 @@ public:
     grid_space(prpt_space), grid_line(prpt_line),
     m_width(grid_width), m_length(grid_length), m_border_width(border_width){}
     
+    int getClass()
+    { return 2; }
+    
     void getProperty(const DrVector& vec, OpticalProperty &property);
 
 };
