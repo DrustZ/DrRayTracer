@@ -16,10 +16,11 @@
  *表面光学特性
  */
 struct OpticalProperty {
+    //反射+折射+漫反射 <= 1
     DrColor diffuse = BLACK;//漫反射系数
-    DrColor specular = BLACK;//高光反射系数
+    double specular = 0;//高光反射系数
     double reflection = 0;//镜面反射系数
-    double spec_exp = 1,//镜面反射指数
+    double spec_exp = 1,//高光反射指数
     transparency = 0,//透明度
     ambient = 0;//环境反射系数
 };

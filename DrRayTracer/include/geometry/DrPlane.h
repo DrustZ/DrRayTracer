@@ -13,7 +13,7 @@
 
 class DrPlane : public DrGeometry {
 public:
-    DrPlane(const DrVector &norm, double t, DrPnt<DrTexture> tex, bool ref, double trans);
+    DrPlane(const DrVector &norm, double t, DrPnt<DrTexture> tex, bool ref, double refr, double trans);
     
     /*
      *获得在某点法向量

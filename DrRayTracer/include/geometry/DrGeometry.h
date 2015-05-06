@@ -22,8 +22,8 @@
  */
 class DrGeometry {
 public:
-    
-    DrGeometry(DrPnt<DrTexture> tex, bool ref, double trans);
+    //refrand 为漫反射参数
+    DrGeometry(DrPnt<DrTexture> tex, bool ref, double refrand, double trans);
 
     virtual ~DrGeometry(){};
     
@@ -85,12 +85,14 @@ public:
     bool getTrans() const
     { return transparency > 0; }
     
+    double refrand;
+
 protected:
     DrPnt<DrTexture> m_texture;
     bool reflective;
     double transparency;
     DrColor absorb;
-
+    
 };
 
 #endif /* defined(__DrRayTracer__DrGeometry__) */

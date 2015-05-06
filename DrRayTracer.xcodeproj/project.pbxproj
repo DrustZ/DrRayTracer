@@ -17,6 +17,7 @@
 		DC8FEE5C1AEA061700FCDE49 /* DrPlane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE5A1AEA061700FCDE49 /* DrPlane.cpp */; };
 		DCC0DEAA1AEA825900FACC4A /* DrGridTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC0DEA81AEA825900FACC4A /* DrGridTexture.cpp */; };
 		DCC0DEAD1AEA8FE900FACC4A /* DrWoodenTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC0DEAB1AEA8FE900FACC4A /* DrWoodenTexture.cpp */; };
+		DCC86AC01AF0B4E500C39AAB /* DrRectLighter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCC86ABE1AF0B4E500C39AAB /* DrRectLighter.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +59,8 @@
 		DCC0DEA91AEA825900FACC4A /* DrGridTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrGridTexture.h; sourceTree = "<group>"; };
 		DCC0DEAB1AEA8FE900FACC4A /* DrWoodenTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrWoodenTexture.cpp; sourceTree = "<group>"; };
 		DCC0DEAC1AEA8FE900FACC4A /* DrWoodenTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrWoodenTexture.h; sourceTree = "<group>"; };
+		DCC86ABE1AF0B4E500C39AAB /* DrRectLighter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrRectLighter.cpp; sourceTree = "<group>"; };
+		DCC86ABF1AF0B4E500C39AAB /* DrRectLighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrRectLighter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +152,8 @@
 			children = (
 				DC8FEE431AE7B21F00FCDE49 /* DrLighter.cpp */,
 				DC8FEE441AE7B21F00FCDE49 /* DrLighter.h */,
+				DCC86ABE1AF0B4E500C39AAB /* DrRectLighter.cpp */,
+				DCC86ABF1AF0B4E500C39AAB /* DrRectLighter.h */,
 			);
 			path = Lighter;
 			sourceTree = "<group>";
@@ -236,6 +241,7 @@
 				DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */,
 				DCC0DEAA1AEA825900FACC4A /* DrGridTexture.cpp in Sources */,
 				DC8FEE4E1AE7B24D00FCDE49 /* DrRay.cpp in Sources */,
+				DCC86AC01AF0B4E500C39AAB /* DrRectLighter.cpp in Sources */,
 				DC8FEE3C1AE7B1E800FCDE49 /* DrSphere.cpp in Sources */,
 				DC8FEE541AE7B26B00FCDE49 /* DrScene.cpp in Sources */,
 				DC0B749C1AEB2BDA0026432F /* DrImageTexture.cpp in Sources */,
@@ -280,9 +286,15 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-fopenmp";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -315,8 +327,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/usr/local/include,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = "-fopenmp";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -329,7 +347,11 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/include,
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/Cellar/libiomp/20150227/lib,
+				);
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-lopencv_imgproc",
 					"-lopencv_core",
@@ -347,7 +369,11 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					/usr/local/include,
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/Cellar/libiomp/20150227/lib,
+				);
+				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-lopencv_imgproc",
 					"-lopencv_core",

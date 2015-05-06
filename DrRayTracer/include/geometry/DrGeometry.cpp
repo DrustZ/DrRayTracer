@@ -8,7 +8,7 @@
 
 #include "DrGeometry.h"
 
-DrGeometry::DrGeometry(DrPnt<DrTexture> tex, bool ref, double trans) : m_texture(tex), reflective(ref), transparency(trans), absorb(BLACK){
+DrGeometry::DrGeometry(DrPnt<DrTexture> tex, bool ref, double refr, double trans) : m_texture(tex), reflective(ref), transparency(trans), refrand(refr), absorb(BLACK){
     
 }
 

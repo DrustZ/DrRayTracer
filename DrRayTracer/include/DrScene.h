@@ -12,6 +12,7 @@
 #include "DrPlane.h"
 #include "DrSphere.h"
 #include "DrLighter.h"
+#include "DrRectLighter.h"
 
 /*
  *场景类
@@ -20,7 +21,7 @@
 class DrScene
 {
     std::vector<DrPnt<DrGeometry> > objs;
-    std::vector<DrLighter> lights;
+    std::vector<DrPnt<DrLighter>> lights;
     int max_dep, min_weight;
     DrColor m_ambient;
     DrVector eye, u, v, w;
@@ -33,7 +34,7 @@ public:
     /*
      *进行 光线追踪
      */
-    DrColor doRayTracing(const DrRay &ray, double weight, int depth);
+    DrColor doRayTracing(const DrRay &ray, double weight, int depth, int& route);
     
     /*
      *添加物体
@@ -45,7 +46,7 @@ public:
     /*
      *添加光源
      */
-    void addlights(DrLighter &light){
+    void addlights(DrPnt<DrLighter> &light){
         lights.push_back(light);
     }
     
@@ -60,7 +61,7 @@ public:
      *ray 为视线， pnt 为与实现相交的物体
      *返回值为交点到视点的距离
      */
-    double getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt);
+    double getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx);
     
     /*
      *获得相机位置，建立相机坐标系
@@ -70,9 +71,9 @@ public:
     /*
      * 针对相机坐标系，产生视线，并进行像素点到世界坐标的向量转换
      * x 为 像素第 x 列， y 为 第y行， height 为 投射屏幕与小孔的距离， nx 表示 总列数， ny 表示 总行数
-     * left ， right， up， down 分别为 左右上下的坐标值
+     * left ， right， up， down 分别为 左右上下的坐标值 dist 为眼睛到此像素的距离
      */
-    DrRay transformToGlobal(int x, int y, double height, int nx, int ny, double left, double right, double up, double down);
+    DrRay transformToGlobal(double x, double y, double height, int nx, int ny, double left, double right, double up, double down, double& dist);
 };
 
 

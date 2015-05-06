@@ -8,7 +8,7 @@
 
 #include "DrPlane.h"
 
-DrPlane::DrPlane(const DrVector &norm, double t, DrPnt<DrTexture> tex, bool ref, double trans = 1.5) : normal(norm), d(t), DrGeometry(tex, ref, trans){}
+DrPlane::DrPlane(const DrVector &norm, double t, DrPnt<DrTexture> tex, bool ref, double refr = 0.5, double trans = 1.5) : normal(norm), d(t), DrGeometry(tex, ref, refr, trans){}
 
 DrVector DrPlane::getNormal(const DrVector &v)
 { return normal; }

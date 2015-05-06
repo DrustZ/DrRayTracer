@@ -10,6 +10,7 @@
 #define __DrRayTracer__DrLighter__
 
 #include "DrMath.h"
+#include "DrRay.h"
 
 /*
  *光源类
@@ -21,6 +22,17 @@ public:
     double intensity;//光源强度
     
     DrLighter(DrVector &pos, DrColor &col, double inten) : position(pos), color(col), intensity(inten) {}
+    
+    virtual ~DrLighter(){};
+    
+    virtual DrVector* getPoints()
+    { return nullptr; }
+    
+    virtual int lightertype()
+    { return 0; }
+    
+    virtual double inside(const DrRay &v)
+    { return -1; }
     
     DrVector generateLighter(double r = 3);
 };

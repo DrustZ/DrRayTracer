@@ -16,7 +16,7 @@ class DrSphere: public DrGeometry {
     double radius;
     
 public:
-    DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex, bool ref, double trans);
+    DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex, bool ref, double refr, double trans);
     
     bool inside(const DrVector& vec);
     

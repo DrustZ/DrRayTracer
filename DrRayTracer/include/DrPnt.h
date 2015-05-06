@@ -56,7 +56,7 @@ public:
     }
     T* getPtr() const { return m_holder->ptn; }
     T* operator -> () const { return m_holder->ptn; }
-    T* operator * () const { return *m_holder->ptn; }
+    T& operator * () const { return *m_holder->ptn; }
     
     bool operator == (const DrPnt<T> &p) const
     { return m_holder->ptn == p.m_holder->ptn; }

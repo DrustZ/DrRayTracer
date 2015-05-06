@@ -8,7 +8,7 @@
 
 #include "DrSphere.h"
 
-DrSphere::DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex, bool ref, double trans = 1.5) : center(cen), radius(r), DrGeometry(tex, ref, trans){}
+DrSphere::DrSphere(DrVector& cen, double r, DrPnt<DrTexture>& tex, bool ref, double refr = 0.5, double trans = 1.5) : center(cen), radius(r), DrGeometry(tex, ref, refr, trans){}
 
 bool DrSphere::inside(const DrVector& vec){
     DrVector dir = DrVector(vec, center);
@@ -44,8 +44,7 @@ bool DrSphere::intersect(const DrRay& ray){
     if (getSign(tp) < 0) return false;
     else {
         float dis = dir.sqrModulus() - sqr(tp);
-        //std::cout << dir << ray.direction << tp << " " << dis << std::endl;
-        if (getSign(dis - sqr(radius)) > 0)
+        if (getSign(dis - sqr(radius)) >= 0)
             return false;
     }
     return true;

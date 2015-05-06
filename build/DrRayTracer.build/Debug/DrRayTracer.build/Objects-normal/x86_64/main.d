@@ -11,6 +11,7 @@ dependencies: \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/Lighter/DrLighter.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/geometry/DrPlane.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/geometry/DrSphere.h \
+  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/Lighter/DrRectLighter.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrUniformTexture.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrGridTexture.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrWoodenTexture.h \

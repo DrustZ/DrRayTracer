@@ -9,6 +9,7 @@
 #ifndef __DrRayTracer__DrColor__
 #define __DrRayTracer__DrColor__
 
+#define PI 3.14159265358979
 #define DrEPS 1e-6
 #include <iostream>
 static inline bool range(float n){
