@@ -9,8 +9,8 @@
 #ifndef __DrRayTracer__DrLighter__
 #define __DrRayTracer__DrLighter__
 
-#include "DrMath.h"
-#include "DrRay.h"
+#include "../DrMath.h"
+#include "../DrRay.h"
 
 /*
  *光源类
@@ -26,7 +26,7 @@ public:
     virtual ~DrLighter(){};
     
     virtual DrVector* getPoints()
-    { return nullptr; }
+    { return NULL; }
     
     virtual int lightertype()
     { return 0; }

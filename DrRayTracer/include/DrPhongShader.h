@@ -9,8 +9,8 @@
 #ifndef __DrRayTracer__DrPhongShader__
 #define __DrRayTracer__DrPhongShader__
 #include "DrMath.h"
-#include "DrGeometry.h"
-#include "DrLighter.h"
+#include "geometry/DrGeometry.h"
+#include "Lighter/DrLighter.h"
 #include <cmath>
 
 /*

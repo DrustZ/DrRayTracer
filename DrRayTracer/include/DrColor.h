@@ -11,6 +11,7 @@
 
 #define PI 3.14159265358979
 #define DrEPS 1e-6
+#include <cstdlib>
 #include <iostream>
 static inline bool range(float n){
     return (n >= 0) && (n <= 1);

@@ -11,19 +11,19 @@
 /**
  *  一个智能计数指针
  */
-
+#define NULL 0
 template<typename T>
 class DrPnt{
     struct DrHolder{
         T* ptn;
         int count;
         
-        DrHolder(): ptn(nullptr), count(0){}
+        DrHolder(): ptn(NULL), count(0){}
         DrHolder(T* p): ptn(p), count(1){}
         
         ~DrHolder(){
             if (ptn) delete ptn;
-            ptn = nullptr;
+            ptn = NULL;
             count = 0;
         }
     };
@@ -37,7 +37,7 @@ class DrPnt{
     void decrease_ref(){
         if (m_holder && !(--m_holder->count)){
             delete m_holder;
-            m_holder = nullptr;
+            m_holder = NULL;
         }
     }
     
@@ -65,6 +65,6 @@ public:
     { return m_holder->ptn == p; }
     
     operator bool() const
-    { return m_holder->ptn != nullptr; }
+    { return m_holder->ptn != NULL; }
 };
 #endif /* defined(__DrRayTracer__DrPnt__) */

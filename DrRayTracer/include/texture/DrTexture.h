@@ -9,8 +9,8 @@
 #ifndef __DrRayTracer__DrTexture__
 #define __DrRayTracer__DrTexture__
 
-#include "DrMath.h"
-#include "DrPnt.h"
+#include "../DrMath.h"
+#include "../DrPnt.h"
 
 /*
  *表面光学特性

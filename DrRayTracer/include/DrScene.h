@@ -9,10 +9,10 @@
 #ifndef __DrRayTracer__DrScene__
 #define __DrRayTracer__DrScene__
 #include "DrPhongShader.h"
-#include "DrPlane.h"
-#include "DrSphere.h"
-#include "DrLighter.h"
-#include "DrRectLighter.h"
+#include "geometry/DrPlane.h"
+#include "geometry/DrSphere.h"
+#include "Lighter/DrLighter.h"
+#include "Lighter/DrRectLighter.h"
 
 /*
  *场景类

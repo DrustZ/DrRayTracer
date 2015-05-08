@@ -7,17 +7,17 @@
 //
 #include <thread>
 #include <iostream>
-#include "DrScene.h"
-#include "DrUniformTexture.h"
-#include "DrGridTexture.h"
-#include "DrWoodenTexture.h"
-#include "DrImageTexture.h"
+#include "include/DrScene.h"
+#include "include/texture/DrUniformTexture.h"
+#include "include/texture/DrGridTexture.h"
+#include "include/texture/DrWoodenTexture.h"
+#include "include/texture/DrImageTexture.h"
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-DrScene scene = DrScene(6, 0.01, BLACK);
+DrScene scene = DrScene(4, 0.01, BLACK);
 cv::Mat Result = cv::Mat::zeros(600, 600, CV_32FC3);
 int ** Pixels = new int*[Result.rows];
 int tempint;
@@ -35,7 +35,7 @@ struct threadPara{
 void addObjects();
 void addLighters();
 void showAndSave();
-void antiAlias();
+void antiAlias(double eye_to_img, double eyeup, double eyedown, double eyeleft, double eyeright);
 
 int main() {
     using std::cout;
@@ -57,6 +57,11 @@ int main() {
     DrVector lookat = DrVector(0,1,0);
     DrVector up = DrVector(0,0,-1);
     scene.getEyePosition(eye, lookat, up);
+    double eye_to_img = 500,
+           eyeup = 100,
+           eyedown = -300,
+           eyeleft = -200,
+            eyeright = 200;
     
     {
 //    
@@ -147,18 +152,22 @@ int main() {
         for (int j = 0; j < Result.rows; ++j){
             DrColor ret = BLACK;
             
-            double eye_to_plane = 500;
-            double plane_to_focus = 200;
+            double focus_dist = 10;//800;
             double eye_to_pixel = 0;
             //目前是x z 轴为平面的圆孔，需要重新写相机类来重构
-            double aperture_range = 1;
-            DrRay ray = scene.transformToGlobal(i, j, eye_to_plane, Result.cols, Result.rows, -200, 200, 100, -300, eye_to_pixel);
-            DrVector focus_point = eye + ray.direction * ( eye_to_pixel * (eye_to_plane + plane_to_focus) / eye_to_plane);
+            double aperture_range = 0;//15;
+            DrRay ray = scene.transformToGlobal(i, j, eye_to_img, Result.cols, Result.rows, eyeleft, eyeright, eyeup, eyedown, eye_to_pixel);
+            //用相似三角形计算焦平面上的点
+            DrVector focus_point = eye + ray.direction * ( eye_to_pixel *
+                                        ((eye_to_img + focus_dist) / eye_to_img - 1) );
+//            DrVector focus_point = eye + ray.direction * focus_dist;
+//            cout << focus_point;
             int focus_time = 1;
             for (int k = 1; k <= focus_time; ++k){
-                double angle = rand() / RAND_MAX * 2 * PI;
+                double angle = (double)rand() / RAND_MAX * 2 * PI;
                 double rand_range = aperture_range * rand() / RAND_MAX;
                 DrVector rand_eye = DrVector(eye.x + rand_range * cos(angle), eye.y, eye.z + rand_range * sin(angle));
+                
                 DrVector dir = focus_point - rand_eye;
                 DrRay rand_ray = DrRay(rand_eye, dir);
                 if (k == 1)
@@ -168,7 +177,6 @@ int main() {
                     ret += scene.doRayTracing(rand_ray, 1, 0, tempint);
                 }
             }
-            
 //            DrVector st = DrVector(i, 0, j);
 //            DrRay ray = DrRay(st, lookat);
             Result.at<cv::Vec3f>(j,i)[0] = ret.b / focus_time;
@@ -177,7 +185,7 @@ int main() {
         }
     }
     
-    antiAlias();
+    antiAlias(eye_to_img, eyeup, eyedown, eyeleft, eyeright);
     
     showAndSave();
     
@@ -189,34 +197,54 @@ void addObjects()
 {
         OpticalProperty prop;
         prop.diffuse = BLACK;
-        prop.specular = 0.3;//DrColor(0.3,0.3,0.3);
+        prop.specular = 0;//DrColor(0.3,0.3,0.3);
         prop.spec_exp = 222;
-        prop.transparency = 0;
-        prop.reflection = 0;
+        prop.transparency = 1;
+        prop.reflection = 0.01;
         // prop.ambient = 0.1;
         
-        DrPnt<DrTexture> texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/dots.jpg", prop, 1, 1));
+        DrPnt<DrTexture> texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/dots.png", prop, 1, 1));
 
-        DrVector dv = DrVector(-60,10,200);
+        DrVector dv = DrVector(-60,120,200);
         DrPnt<DrGeometry> ball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, true, 0.8, 1.3));
         ball->setAbsorb(DrColor(0,0.4,0.4));
         scene.addObj(ball);
         
-        prop.diffuse = DrColor(0.2,0.1,0.4);
+        prop.diffuse = DrColor(0.5,0.8,0.4);
         prop.specular = 0.6;
         prop.spec_exp = 50;
         prop.reflection = 0;
         prop.transparency = 0;
-        texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/marble2.jpg", prop, 1, 1));
+        texture = DrPnt<DrTexture>(new DrUniformTexture(prop));
         dv = DrVector(50,80,200);
         DrPnt<DrGeometry> ball2 = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0.8, 1.5));
-        scene.addObj(ball2);
+//        scene.addObj(ball2);
+    dv = DrVector(100,120,150);
+    DrPnt<DrGeometry> aball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0.8, 1.5));
+//    scene.addObj(aball);
+    dv = DrVector(20,60,120);
+    prop.reflection = 0.2;
+    texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/marble2.jpg", prop, 1, 1));
+    DrPnt<DrGeometry> bball = DrPnt<DrGeometry>(new DrSphere(dv, 60, texture, false, 0.8, 1.5));
+    scene.addObj(bball);
+    prop.reflection = 0;
+
+    texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/wood.jpg", prop, 1, 1));
+    dv = DrVector(-20,-40,100);
+        DrPnt<DrGeometry> cball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0.8, 1.5));
+//    scene.addObj(cball);
+    prop.transparency = 0.2;
+
+    texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/bmqk.jpg", prop, 1, 1));
+    dv = DrVector(-50,-80,70);
+        DrPnt<DrGeometry> dball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0.8, 1.2));
+    scene.addObj(dball);
+    
         
-        
-        dv = DrVector(160, 80, 100);
+        dv = DrVector(160, 20, 100);
         prop.diffuse = BLACK;//(0.2, 0.6, 0.4);
-        prop.reflection = 0.1;
-        prop.transparency = 1;
+        prop.reflection = 1;
+        prop.transparency = 0.1;
         texture = DrPnt<DrTexture>(new DrUniformTexture(prop));
         DrPnt<DrGeometry> ball3 = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, true, 1.2, 1.33));
         scene.addObj(ball3);
@@ -242,7 +270,7 @@ void addObjects()
         prop.diffuse = DrColor(0.5, 0.5, 0.5);
         texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/marble3", prop, 3, 3));
     
-        DrPnt<DrGeometry> planeB = DrPnt<DrGeometry>(new DrPlane(dv, -10, texture, true, 0.7, 1.2));
+        DrPnt<DrGeometry> planeB = DrPnt<DrGeometry>(new DrPlane(dv, -10, texture_grid, true, 0.7, 1.2));
         scene.addObj(planeB);
         prop.diffuse = DrColor(0.7, 0.2, 0);
         prop.reflection = 0;
@@ -258,21 +286,21 @@ void addObjects()
 
 void addLighters()
 {
-    DrVector dv2 = DrVector(0,0,0);
-    DrPnt<DrLighter> lighter = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.2));
-    dv2 = DrVector(120, 30, 250);
-    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.8));
-    DrVector dvright = DrVector(180, 30, 250);
-    DrVector dvdown = DrVector(120, -10, 250);
+    DrVector dv2 = DrVector(-30,-200,400);
+    DrPnt<DrLighter> lighter = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 1));
+    dv2 = DrVector(80, 40, 250);
+    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 1));
+    DrVector dvright = DrVector(130, 40, 250);
+    DrVector dvdown = DrVector(80, 0, 250);
     
     DrPnt<DrLighter> lighter_rect = DrPnt<DrLighter>(new DrRectLighter(dv2, WHITE, 0.9, dvright, dvdown));
 //    scene.addlights(lighter);
-//        scene.addlights(lighter2);
-    scene.addlights(lighter_rect);
+        scene.addlights(lighter2);
+//    scene.addlights(lighter_rect);
 
 }
 
-void antiAlias(){
+void antiAlias(double eye_to_img, double eyeup, double eyedown, double eyeleft, double eyeright){
     
     int anti_ray_number = 3;
     for (int i = 0; i < Result.cols; ++i)
@@ -291,7 +319,7 @@ void antiAlias(){
                 for ( int b = 0 ; b < anti_ray_number ; b++ ) {
                     double I = ( double ) i - 0.5 + ( 0.5 + a ) / anti_ray_number;
                     double J = ( double ) j - 0.5 + ( 0.5 + b ) / anti_ray_number;
-                    DrRay ray = scene.transformToGlobal(I, J, 500, Result.cols, Result.rows, -200, 200, 100, -300, tempdouble);
+                    DrRay ray = scene.transformToGlobal(I, J, eye_to_img, Result.cols, Result.rows, eyeleft, eyeright, eyeup, eyedown, tempdouble);
                     int t = 0;
                     tmp += scene.doRayTracing(ray, 1, 0, t);
                 }
@@ -303,6 +331,7 @@ void antiAlias(){
 
 void showAndSave()
 {
+    
     cv::Mat verseImage = cv::Mat::zeros(Result.rows, Result.cols, Result.type());
     for (int i = 0; i < Result.rows; ++i)
         Result.row(Result.rows - 1 - i).copyTo(verseImage.row(i));

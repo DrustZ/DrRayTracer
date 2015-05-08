@@ -9,11 +9,11 @@
 #ifndef __DrRayTracer__DrGeometry__
 #define __DrRayTracer__DrGeometry__
 
-#include "DrPnt.h"
-#include "DrRay.h"
-#include "DrColor.h"
-#include "DrMath.h"
-#include "DrTexture.h"
+#include "../DrPnt.h"
+#include "../DrRay.h"
+#include "../DrColor.h"
+#include "../DrMath.h"
+#include "../texture/DrTexture.h"
 #include <vector>
 #include <iostream>
 
