@@ -32,7 +32,6 @@ double DrRectLighter::inside(const DrRay &v){
         DrVector point = v.getPoint(dist);
         //交点到左右两边的距离之差的绝对值是否等于边长
         double distl = fabs((point - position).cross((points[1] - position).getNormalize()).modulus());
-        DrVector point4 = points[0] + points[1] - position;
         double distr = fabs((point - points[0]).cross((points[1] - position).getNormalize()).modulus());
         if (getSign(fabs(distr - distl) - fabs((points[0] - position).modulus())) >= 0)
             return -1;

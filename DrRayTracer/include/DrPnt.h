@@ -12,11 +12,13 @@
  *  一个智能计数指针
  */
 #define NULL 0
+#include <atomic>
+
 template<typename T>
 class DrPnt{
     struct DrHolder{
         T* ptn;
-        int count;
+        std::atomic_int count;
         
         DrHolder(): ptn(NULL), count(0){}
         DrHolder(T* p): ptn(p), count(1){}

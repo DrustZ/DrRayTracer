@@ -148,7 +148,7 @@ bool DrScene::testShadow(const DrRay &ray, double max_dist){
 }
 
 double DrScene::getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx){
-    double mindis = 999999999;
+    double mindis = std::numeric_limits<double>::max();
     int index = 0;
     for (const auto &i: objs){
         index++;

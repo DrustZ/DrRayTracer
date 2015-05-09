@@ -32,7 +32,7 @@ class DrTexture {
 public:
     virtual int getClass() = 0;
     virtual void getProperty(const DrVector& vec, OpticalProperty &property) = 0;
-    
+    virtual ~DrTexture(){};
 };
 
 #endif /* defined(__DrRayTracer__DrTexture__) */
