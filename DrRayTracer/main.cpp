@@ -7,6 +7,8 @@
 //
 #include <thread>
 #include <time.h>
+#include <mutex>
+#include <unistd.h>
 #include <iostream>
 #include "include/DrScene.h"
 #include "include/texture/DrUniformTexture.h"
@@ -21,18 +23,10 @@
 DrScene scene = DrScene(4, 0.01, BLACK);
 cv::Mat Result = cv::Mat::zeros(600, 600, CV_32FC3);
 int ** Pixels = new int*[Result.rows];
+std::mutex * lines;
 int tempint,thread_amount[9];
 double tempdouble;
-struct threadPara{
-    int col_start;
-    int col_end;
-    int row_start;
-    int row_end;
-    bool open_depth;
-    int index;
-    threadPara(int a, int b, int c, int d, bool e, int idx):col_start(a), col_end(b), row_start(c), row_end(d), open_depth(e), index(idx){}
-    threadPara(){}
-};
+
 /**
  *  景深的参数 & 相机的参数
  */
@@ -50,11 +44,11 @@ double eye_to_pixel = 0;
 //目前是x z 轴为平面的圆孔，需要重新写相机类来重构
 double aperture_range = 0;//15;
 
-void workThread(threadPara para);
+void workThread(int index);
 void addObjects();
 void addLighters();
 void showAndSave();
-void antiAlias(int cs, int ce, int rs, int re);
+void antiAlias(int index);
 void say(){ std::cout << "aaa"; }
 int main() {
     using std::cout;
@@ -72,19 +66,22 @@ int main() {
     start = clock();
     
     addObjects();
-    // // // // // //
     addLighters();
     scene.getEyePosition(eye, lookat, up);
+    /**
+     *  多线程
+     */
+    //加锁
+    lines = new std::mutex[Result.rows];
     
     int threads = 4;
     for (int i = 0; i < threads; ++i)
         thread_amount[i] = 0;
     
     for (int i = 0; i < threads; ++i){
-        threadPara para = threadPara(0, Result.cols, i * Result.rows / threads, (i+1) * Result.rows / threads, false, i);
         if (i != threads - 1)
-            std::thread (workThread, para).detach();
-        else std::thread (workThread, para).join();
+            std::thread (workThread, i).detach();
+        else std::thread (workThread, i).join();
     }
     
     bool all_finished = false;
@@ -94,9 +91,30 @@ int main() {
             if (thread_amount[j] == 0){
                 all_finished = false;
             }
-        //sleep(10);
+        usleep(1000);
     }
     
+    for (int i = 0; i < Result.rows; ++i)
+        lines[i].unlock();
+    
+    for (int i = 0; i < threads; ++i)
+        thread_amount[i] = 0;
+    
+    for (int i = 0; i < threads; ++i){
+        if (i != threads - 1)
+            std::thread (antiAlias,i).detach();
+        else std::thread (antiAlias, i).join();
+    }
+    
+    while(!all_finished){
+        all_finished = true;
+        for (int j = 0; j < threads; ++j)
+            if (thread_amount[j] == 0){
+                all_finished = false;
+            }
+        usleep(1000);
+    }
+
     finish = clock();
     cout << static_cast<double>(finish - start) / CLOCKS_PER_SEC * 1000;
 
@@ -213,33 +231,36 @@ void addLighters()
 
 }
 
-void antiAlias(int cs, int ce, int rs, int re){
-
+void antiAlias(int index){
     int anti_ray_number = 3;
-    for (int i = cs; i < ce; ++i)
-        for (int j = rs; j < re; ++j){
-            bool check = false;
-            for ( int a = -1 ; a <= 1 && !check ; a++ )
-                for ( int b = -1 ; b <= 1 && !check ; b++ ) {
-                    if ( i + a < 0 || a + i >= Result.cols ) continue;
-                    if ( j + b < 0 || j + b >= Result.rows ) continue;
-                    if ( Pixels[j][i] != Pixels[j+b][i+a] ) check = true;
-                }
-            if ( !check ) continue; //判断是否需要使用超级样本
-            
-            DrColor tmp = BLACK;
-            for ( int a = 0 ; a < anti_ray_number ; a++ )
-                for ( int b = 0 ; b < anti_ray_number ; b++ ) {
-                    double I = ( double ) i - 0.5 + ( 0.5 + a ) / anti_ray_number;
-                    double J = ( double ) j - 0.5 + ( 0.5 + b ) / anti_ray_number;
-                    DrRay ray = scene.transformToGlobal(I, J, eye_to_img, Result.cols, Result.rows, eyeleft, eyeright, eyeup, eyedown, tempdouble);
-                    int t = 0;
-                    tmp += scene.doRayTracing(ray, 1, 0, t);
-                }
-            Result.at<cv::Vec3f>(j,i)[0] = tmp.b / (anti_ray_number * anti_ray_number);
-            Result.at<cv::Vec3f>(j,i)[1] = tmp.g / (anti_ray_number * anti_ray_number);
-            Result.at<cv::Vec3f>(j,i)[2] = tmp.r / (anti_ray_number * anti_ray_number);
+    for (int j = 0; j < Result.rows; ++j){
+        if (lines[j].try_lock()){
+            for (int i = 0; i < Result.cols; ++i){
+                bool check = false;
+                for ( int a = -1 ; a <= 1 && !check ; a++ )
+                    for ( int b = -1 ; b <= 1 && !check ; b++ ) {
+                        if ( i + a < 0 || a + i >= Result.cols ) continue;
+                        if ( j + b < 0 || j + b >= Result.rows ) continue;
+                        if ( Pixels[j][i] != Pixels[j+b][i+a] ) check = true;
+                    }
+                if ( !check ) continue; //判断是否需要使用超级样本
+                
+                DrColor tmp = BLACK;
+                for ( int a = 0 ; a < anti_ray_number ; a++ )
+                    for ( int b = 0 ; b < anti_ray_number ; b++ ) {
+                        double I = ( double ) i - 0.5 + ( 0.5 + a ) / anti_ray_number;
+                        double J = ( double ) j - 0.5 + ( 0.5 + b ) / anti_ray_number;
+                        DrRay ray = scene.transformToGlobal(I, J, eye_to_img, Result.cols, Result.rows, eyeleft, eyeright, eyeup, eyedown, tempdouble);
+                        int t = 0;
+                        tmp += scene.doRayTracing(ray, 1, 0, t);
+                    }
+                Result.at<cv::Vec3f>(j,i)[0] = tmp.b / (anti_ray_number * anti_ray_number);
+                Result.at<cv::Vec3f>(j,i)[1] = tmp.g / (anti_ray_number * anti_ray_number);
+                Result.at<cv::Vec3f>(j,i)[2] = tmp.r / (anti_ray_number * anti_ray_number);
+            }
         }
+    }
+    thread_amount[index] = 1;
 }
 
 void showAndSave()
@@ -257,43 +278,35 @@ void showAndSave()
     cv::waitKey(0);
 }
 
-void workThread(threadPara pa){
-    threadPara para = pa;
-    int col_start = para.col_start;
-    int col_end = para.col_end;
-    int row_start = para.row_start;
-    int row_end = para.row_end;
-    bool open_depth = para.open_depth;
-
-    for (int i = col_start; i < col_end; ++i){
-        for (int j = row_start; j < row_end; ++j){
-            DrColor ret = BLACK;
-            DrRay ray = scene.transformToGlobal(i, j, eye_to_img, Result.cols, Result.rows, eyeleft, eyeright, eyeup, eyedown, eye_to_pixel);
-            //用相似三角形计算焦平面上的点
-            DrVector focus_point = eye + ray.direction * ( eye_to_pixel *
-                                                          ((eye_to_img + focus_dist) / eye_to_img - 1) );
-            int focus_time = 1;
-            for (int k = 1; k <= focus_time; ++k){
-                double angle = (double)rand() / RAND_MAX * 2 * PI;
-                double rand_range = aperture_range * rand() / RAND_MAX;
-                DrVector rand_eye = DrVector(eye.x + rand_range * cos(angle), eye.y, eye.z + rand_range * sin(angle));
-                
-                DrVector dir = focus_point - rand_eye;
-                DrRay rand_ray = DrRay(rand_eye, dir);
-                if (k == 1)
-                    ret += scene.doRayTracing(rand_ray, 1, 0, Pixels[j][i]);
-                else{
-                    tempint = 0;
-                    ret += scene.doRayTracing(rand_ray, 1, 0, tempint);
+void workThread(int index){
+    for (int j = 0; j < Result.rows; ++j){
+        if (lines[j].try_lock()){
+            for (int i = 0; i < Result.cols; ++i){
+                    DrColor ret = BLACK;
+                    DrRay ray = scene.transformToGlobal(i, j, eye_to_img, Result.cols, Result.rows, eyeleft, eyeright, eyeup, eyedown, eye_to_pixel);
+                    //用相似三角形计算焦平面上的点
+                    DrVector focus_point = eye + ray.direction * ( eye_to_pixel *
+                                                                  ((eye_to_img + focus_dist) / eye_to_img - 1) );
+                    int focus_time = 1;
+                    for (int k = 1; k <= focus_time; ++k){
+                        double angle = (double)rand() / RAND_MAX * 2 * PI;
+                        double rand_range = aperture_range * rand() / RAND_MAX;
+                        DrVector rand_eye = DrVector(eye.x + rand_range * cos(angle), eye.y, eye.z + rand_range * sin(angle));
+                        
+                        DrVector dir = focus_point - rand_eye;
+                        DrRay rand_ray = DrRay(rand_eye, dir);
+                        if (k == 1)
+                            ret += scene.doRayTracing(rand_ray, 1, 0, Pixels[j][i]);
+                        else{
+                            tempint = 0;
+                            ret += scene.doRayTracing(rand_ray, 1, 0, tempint);
+                        }
+                    }
+                    Result.at<cv::Vec3f>(j,i)[0] = ret.b / focus_time;
+                    Result.at<cv::Vec3f>(j,i)[1] = ret.g / focus_time;
+                    Result.at<cv::Vec3f>(j,i)[2] = ret.r / focus_time;
                 }
-            }
-            Result.at<cv::Vec3f>(j,i)[0] = ret.b / focus_time;
-            Result.at<cv::Vec3f>(j,i)[1] = ret.g / focus_time;
-            Result.at<cv::Vec3f>(j,i)[2] = ret.r / focus_time;
         }
     }
-    if (!open_depth)
-    antiAlias(col_start, col_end, row_start, row_end);
-    
-    thread_amount[para.index] = 1;
+    thread_amount[index] = 1;
 }
