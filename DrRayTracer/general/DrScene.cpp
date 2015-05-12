@@ -93,31 +93,31 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     }
     
     if (prop.reflection > 0 && pnt->getRef()){
-//        //漫反射 随机
-//        int drefl_sample = 4;
-//        double drefl = pnt->refrand; //这是决定射线范围椎体“肥瘦”的变量，如果值为0，就是镜面反射了
-//        if ( drefl > DrEPS && depth <= 1 ) { //只处理drelf不为0，且递归层数为第一层的情况
-//            double refl = prop.reflection / drefl_sample;
-//            DrVector RP = -ray.direction.reflection(-norm);
-//            DrVector RN1 = DrVector( RP.z , RP.y , -RP.x ); //RN1、RN2和RP相互垂直
-//            DrVector RN2 = RP.cross( RN1 );
-//            for (int k = 0; k < drefl_sample; ++k){//用drefl_sample条反射射线取平均进行渲染
-//                double xof, yof;
-//                do{
-//                    xof = ( (double) rand() / RAND_MAX) * drefl;
-//                    yof = ( (double) rand() / RAND_MAX) * drefl;
-//                }
-//                while ( sqr( xof ) + sqr( yof ) > sqr( drefl ) );
-//                DrVector R = RP + RN1 * xof + RN2 * yof;//找到一条符合条件的漫反射射线
-//                R.normalize();
-//                color += doRayTracing(DrRay(point, R), weight * refl, 1 + depth, route) * refl * weight;
-//            }
-//        }
-//        else {
+        //漫反射 随机
+        int drefl_sample = 8;
+        double drefl = pnt->refrand; //这是决定射线范围椎体“肥瘦”的变量，如果值为0，就是镜面反射了
+        if ( drefl > DrEPS && depth <= 1 ) { //只处理drelf不为0，且递归层数为第一层的情况
+            double refl = prop.reflection / drefl_sample;
+            DrVector RP = -ray.direction.reflection(-norm);
+            DrVector RN1 = DrVector( RP.z , RP.y , -RP.x ); //RN1、RN2和RP相互垂直
+            DrVector RN2 = RP.cross( RN1 );
+            for (int k = 0; k < drefl_sample; ++k){//用drefl_sample条反射射线取平均进行渲染
+                double xof, yof;
+                do{
+                    xof = ( (double) rand() / RAND_MAX) * drefl;
+                    yof = ( (double) rand() / RAND_MAX) * drefl;
+                }
+                while ( sqr( xof ) + sqr( yof ) > sqr( drefl ) );
+                DrVector R = RP + RN1 * xof + RN2 * yof;//找到一条符合条件的漫反射射线
+                R.normalize();
+                color += doRayTracing(DrRay(point, R), weight * refl, 1 + depth, route) * refl * weight;
+            }
+        }
+        else {
            DrVector ref = -ray.direction.reflection(-norm);
            color += doRayTracing(DrRay(point, ref),
                                          weight * prop.reflection, 1+depth, route) * prop.reflection * weight;
-//        }
+        }
    }
 
     if (prop.transparency){

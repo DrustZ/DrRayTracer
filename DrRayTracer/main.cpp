@@ -70,7 +70,7 @@ void addObjects()
         DrPnt<DrTexture> texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/dots.png", prop, 2, 2));
 
         DrVector dv = DrVector(-100,120,50);
-        DrPnt<DrGeometry> ball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, true, 0.8, 1.3));
+        DrPnt<DrGeometry> ball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, true, 0, 1.3));
         ball->setAbsorb(DrColor(0,0.4,0.4));
         scene.addObj(ball);
         
@@ -89,28 +89,28 @@ void addObjects()
     dv = DrVector(20,60,60);
     prop.reflection = 0;
     texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/marble2.jpg", prop, 1, 1));
-    DrPnt<DrGeometry> bball = DrPnt<DrGeometry>(new DrSphere(dv, 60, texture, true, 1.4, 1.5));
+    DrPnt<DrGeometry> bball = DrPnt<DrGeometry>(new DrSphere(dv, 60, texture, true, 0, 1.5));
     scene.addObj(bball);
     prop.reflection = 0;
 
     texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/wood.jpg", prop, 1, 1));
     dv = DrVector(-20,-40,100);
-        DrPnt<DrGeometry> cball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0.8, 1.5));
+        DrPnt<DrGeometry> cball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0, 1.5));
 //    scene.addObj(cball);
     prop.transparency = 0.2;
 
     texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/bmqk.jpg", prop, 1, 1));
     dv = DrVector(-50,-80,70);
-        DrPnt<DrGeometry> dball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0.2, 1.2));
+        DrPnt<DrGeometry> dball = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, false, 0, 1.2));
 //    scene.addObj(dball);
     
-        dv = DrVector(160, 20, 100);
-        prop.diffuse = BLACK;//(0.2, 0.6, 0.4);
-        prop.reflection = 1;
+        dv = DrVector(160, 80, 80);
+        prop.diffuse = DrColor(0.2, 0.3, 0.4);
+        prop.reflection = 0.5;
         prop.transparency = 0.1;
         texture = DrPnt<DrTexture>(new DrUniformTexture(prop));
-        DrPnt<DrGeometry> ball3 = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, true, 1.2, 1.33));
-//        scene.addObj(ball3);
+        DrPnt<DrGeometry> ball3 = DrPnt<DrGeometry>(new DrSphere(dv, 50, texture, true, 0 , 1.33));
+        scene.addObj(ball3);
     
         prop.diffuse = DrColor(0.8,0.8,0.8);
         prop.spec_exp = 300;
@@ -133,7 +133,7 @@ void addObjects()
         prop.diffuse = DrColor(0.5, 0.5, 0.5);
         texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/white.png", prop, 3, 3));
     
-        DrPnt<DrGeometry> planeB = DrPnt<DrGeometry>(new DrPlane(dv, 0, texture, true, 1.8, 1.2));
+        DrPnt<DrGeometry> planeB = DrPnt<DrGeometry>(new DrPlane(dv, 0, texture, true, 0, 1.2));
         scene.addObj(planeB);
         prop.diffuse = BLACK;//DrColor(0.7, 0.2, 0);
         prop.reflection = 0;
@@ -142,7 +142,7 @@ void addObjects()
         
         dv = DrVector(0,-10,0).getNormalize();
         texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/beach.jpg", prop, 1, 0.9));
-        DrPnt<DrGeometry> planeC = DrPnt<DrGeometry>(new DrPlane(dv, -300, texture, true, 0.7, 1.2));
+        DrPnt<DrGeometry> planeC = DrPnt<DrGeometry>(new DrPlane(dv, -300, texture, true, 0, 1.2));
         scene.addObj(planeC);
         
 }
@@ -154,10 +154,10 @@ void addLighters()
 {
     DrVector dv2 = DrVector(0,-40,200);
     DrPnt<DrLighter> lighter = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 1));
-    dv2 = DrVector(80, 40, 250);
+    dv2 = DrVector(40, 50, 250);
     DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 1));
-    DrVector dvright = DrVector(130, 40, 250);
-    DrVector dvdown = DrVector(80, 0, 250);
+    DrVector dvright = DrVector(80, 50, 250);
+    DrVector dvdown = DrVector(40, 0, 250);
     
     DrPnt<DrLighter> lighter_rect = DrPnt<DrLighter>(new DrRectLighter(dv2, WHITE, 0.9, dvright, dvdown));
 //    scene.addlights(lighter);
