@@ -35,6 +35,7 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
      OpticalProperty prop;
      pnt->getAppearance(point, prop);
      DrVector norm = pnt->getNormal(point);
+    if (norm * ray.direction > 0) norm = -norm;
     
     route += (weight + 1) * index;//naive, need to be improved
     
@@ -62,7 +63,7 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
         }
         else //矩形光源
         {
-            int number = 8;
+            int number = 6;
             DrVector * points = i->getPoints();
             DrVector pntRight = (points[0] - i->position) * (1.0 / number), pntDown = (points[1] - i->position) * (1.0 / number);
             DrColor temp;
@@ -92,9 +93,9 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     }
     
     if (prop.reflection > 0 && pnt->getRef()){
-        //漫反射 随机
-        int drefl_sample = 4;
-        double drefl = pnt->refrand; //这是决定射线范围椎体“肥瘦”的变量，如果值为0，就是镜面反射了
+//        //漫反射 随机
+//        int drefl_sample = 4;
+//        double drefl = pnt->refrand; //这是决定射线范围椎体“肥瘦”的变量，如果值为0，就是镜面反射了
 //        if ( drefl > DrEPS && depth <= 1 ) { //只处理drelf不为0，且递归层数为第一层的情况
 //            double refl = prop.reflection / drefl_sample;
 //            DrVector RP = -ray.direction.reflection(-norm);
@@ -103,22 +104,22 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
 //            for (int k = 0; k < drefl_sample; ++k){//用drefl_sample条反射射线取平均进行渲染
 //                double xof, yof;
 //                do{
-//                    xof = ( (double) rand() / 16384 - 1) * drefl;
-//                    yof = ( (double) rand() / 16384 - 1) * drefl;
+//                    xof = ( (double) rand() / RAND_MAX) * drefl;
+//                    yof = ( (double) rand() / RAND_MAX) * drefl;
 //                }
 //                while ( sqr( xof ) + sqr( yof ) > sqr( drefl ) );
 //                DrVector R = RP + RN1 * xof + RN2 * yof;//找到一条符合条件的漫反射射线
 //                R.normalize();
-//                color += doRayTracing(DrRay(point, R), weight * refl, 1 + depth, route) * refl;
+//                color += doRayTracing(DrRay(point, R), weight * refl, 1 + depth, route) * refl * weight;
 //            }
 //        }
 //        else {
            DrVector ref = -ray.direction.reflection(-norm);
            color += doRayTracing(DrRay(point, ref),
-                                 weight * prop.reflection, 1+depth, route) * prop.reflection * weight;
+                                         weight * prop.reflection, 1+depth, route) * prop.reflection * weight;
 //        }
    }
-    
+
     if (prop.transparency){
         DrVector trans;
         if (pnt->getRefraction(trans, point, ray.direction, pnt->rayInside(ray))){
@@ -163,24 +164,5 @@ double DrScene::getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx)
     }
     return mindis;
 }
-
-void DrScene::getEyePosition(DrVector &e, DrVector &lookat, DrVector &up){
-    w = lookat.getNormalize();
-    u = up.cross(w).getNormalize();
-    v = w.cross(u);
-    eye = e;
-}
-
-DrRay DrScene::transformToGlobal(double x, double y, double height,
-    int nx, int ny, double left, double right, double up, double down, double& dist){
-    double us = left + (right - left) * (x + 0.5) / nx;
-    double vs = down + (up - down) * (y + 0.5) / ny;
-    DrVector vec = u * us + v * vs + w * height;
-    dist = vec.modulus();
-    return DrRay(eye, vec);
-}
-
-
-
 
 

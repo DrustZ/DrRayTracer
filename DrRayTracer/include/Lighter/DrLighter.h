@@ -25,12 +25,21 @@ public:
     
     virtual ~DrLighter(){};
     
+    /*
+     *获得灯中的点
+     */
     virtual DrVector* getPoints()
     { return NULL; }
     
+    /*
+     *获得灯的类型
+     */
     virtual int lightertype()
     { return 0; }
     
+    /*
+     *判断光线是否穿过灯
+     */
     virtual double inside(const DrRay &v)
     { return -1; }
     

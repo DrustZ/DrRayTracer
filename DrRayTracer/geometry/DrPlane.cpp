@@ -29,7 +29,8 @@ bool DrPlane::intersect(const DrRay& ray){
     double t = normal * ray.direction;
     if (getSign(t) == 0)
         return false;
-    if (getSign(intersection(ray)) < 0) return false;
+    if (getSign( normal * ray.startpoint) == 0) return false;
+    if (getSign(intersection(ray)) <= 0) return false;
     return true;
 }
 

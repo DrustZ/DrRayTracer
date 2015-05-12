@@ -7,6 +7,7 @@
 //
 
 #include "DrRay.h"
+
 DrRay::DrRay(DrVector& start, DrVector& dir){
     startpoint = start;
     direction = dir.getNormalize();

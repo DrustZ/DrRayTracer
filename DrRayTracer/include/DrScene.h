@@ -62,18 +62,7 @@ public:
      *返回值为交点到视点的距离
      */
     double getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx);
-    
-    /*
-     *获得相机位置，建立相机坐标系
-     */
-    void getEyePosition(DrVector &e, DrVector &lookat, DrVector &up);
-    
-    /*
-     * 针对相机坐标系，产生视线，并进行像素点到世界坐标的向量转换
-     * x 为 像素第 x 列， y 为 第y行， height 为 投射屏幕与小孔的距离， nx 表示 总列数， ny 表示 总行数
-     * left ， right， up， down 分别为 左右上下的坐标值 dist 为眼睛到此像素的距离
-     */
-    DrRay transformToGlobal(double x, double y, double height, int nx, int ny, double left, double right, double up, double down, double& dist);
+   
 };
 
 

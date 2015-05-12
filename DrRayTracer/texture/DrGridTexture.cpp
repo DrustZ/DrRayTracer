@@ -7,6 +7,7 @@
 //
 
 #include "DrGridTexture.h"
+
 void DrGridTexture::getProperty(const DrVector& vec, OpticalProperty &property){
     double x = fabs(fmod(vec.x, m_width));
     double y = fabs(fmod(vec.y, m_length));

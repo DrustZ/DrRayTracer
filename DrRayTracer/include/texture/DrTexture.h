@@ -9,8 +9,8 @@
 #ifndef __DrRayTracer__DrTexture__
 #define __DrRayTracer__DrTexture__
 
-#include "../DrMath.h"
-#include "../DrPnt.h"
+#include "DrMath.h"
+#include "DrPnt.h"
 
 /*
  *表面光学特性
@@ -30,6 +30,9 @@ struct OpticalProperty {
  */
 class DrTexture {
 public:
+    /*
+     *这个是获取类身份的函数 0 1 2 3 代表不同纹理
+     */
     virtual int getClass() = 0;
     virtual void getProperty(const DrVector& vec, OpticalProperty &property) = 0;
     virtual ~DrTexture(){};

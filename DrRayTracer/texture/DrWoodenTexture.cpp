@@ -7,6 +7,7 @@
 //
 
 #include "DrWoodenTexture.h"
+
 void DrWoodenTexture::getProperty(const DrVector& vec, OpticalProperty &property){
     double r = sqrt(sqr(vec.x) + sqr(vec.y));
     double a = vec.x + vec.y;

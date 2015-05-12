@@ -51,6 +51,8 @@ public:
     
     void getAppearance(DrVector& vec, OpticalProperty& property);
 
+    void sayMyself() { std::cout << "class : plane" << std::endl; }
+
 private:
     DrVector normal;
     double d;
