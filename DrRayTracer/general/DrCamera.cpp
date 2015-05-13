@@ -57,6 +57,12 @@ void DrCamera::startProcess(cv::Mat& image){
     if (!conf.open_alias || conf.open_depth)
         return ;
     
+//    for (int i = 0 ; i < Result.rows; ++i){
+//        for (int j = 0; j < Result.cols; ++j)
+//            std::cout << Pixels[i][j] << " ";
+//        std::cout << std::endl;
+//    }
+//    
     //抗锯齿
     for (int i = 0; i < Result.rows; ++i)
         lines[i].unlock();
@@ -129,9 +135,9 @@ void DrCamera::rayTracing(int thread_index){
 void DrCamera::antiAlias(int thread_index){
     int anti_ray_number = 3;
     double tempdouble;
-    for (int j = 0; j < Result.rows; ++j){
+    for (int j = 0; j < Result.rows-3; ++j){
         if (lines[j].try_lock()){
-            for (int i = 0; i < Result.cols; ++i){
+            for (int i = 0; i < Result.cols-3; ++i){
                 bool check = false;
                 for ( int a = -1 ; a <= 1 && !check ; a++ )
                     for ( int b = -1 ; b <= 1 && !check ; b++ ) {

@@ -22,10 +22,11 @@ DrScene::~DrScene(){
 }
 
 DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& route){
-    using std::string;
+    using std::cout;
+    using std::endl;
+    
     if (depth > max_dep) return BLACK;
     if (weight < min_weight) return BLACK;
-    
     int index = 0;
     DrPnt<DrGeometry> pnt = DrPnt<DrGeometry>(NULL);
     double dist = getInsection(ray, pnt, index);
@@ -40,7 +41,7 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     route += (weight + 1) * index;//naive, need to be improved
     
     DrColor color;
-    int meet_lighter_index = -1;
+    //int meet_lighter_index = -1;
     
     for (auto &i: lights){
         double dist_to_light = i->inside(ray);
