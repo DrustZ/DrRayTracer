@@ -54,7 +54,7 @@ public:
      *判断遮挡
      *ray为光源到到该点的向量， max_dis 表示光源到该点的距离
      */
-    bool testShadow(const DrRay &ray, double max_dist);
+    bool testShadow(const DrRay &ray, double max_dist, const DrPnt<DrGeometry> &ii);
     
     /*
      *获得交点 

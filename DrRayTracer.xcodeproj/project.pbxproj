@@ -20,6 +20,7 @@
 		DC1E9B441B024DDE00A4F7DB /* DrTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1E9B401B024DDE00A4F7DB /* DrTexture.cpp */; };
 		DC1E9B451B024DDE00A4F7DB /* DrWoodenTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1E9B411B024DDE00A4F7DB /* DrWoodenTexture.cpp */; };
 		DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE581AE7BF3100FCDE49 /* main.cpp */; };
+		DCA005B81B0B40A700098D7D /* DrTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCA005B71B0B40A700098D7D /* DrTriangle.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -63,6 +64,8 @@
 		DC8FEE561AE7B27400FCDE49 /* DrColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrColor.h; sourceTree = "<group>"; };
 		DC8FEE581AE7BF3100FCDE49 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		DC8FEE5B1AEA061700FCDE49 /* DrPlane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrPlane.h; sourceTree = "<group>"; };
+		DCA005B41B0B3F8700098D7D /* DrTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrTriangle.h; sourceTree = "<group>"; };
+		DCA005B71B0B40A700098D7D /* DrTriangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrTriangle.cpp; sourceTree = "<group>"; };
 		DCC0DEA91AEA825900FACC4A /* DrGridTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrGridTexture.h; sourceTree = "<group>"; };
 		DCC0DEAC1AEA8FE900FACC4A /* DrWoodenTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrWoodenTexture.h; sourceTree = "<group>"; };
 		DCC86ABF1AF0B4E500C39AAB /* DrRectLighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrRectLighter.h; sourceTree = "<group>"; };
@@ -145,6 +148,7 @@
 				DC1E9B291B0246CE00A4F7DB /* DrGeometry.cpp */,
 				DC1E9B2A1B0246CE00A4F7DB /* DrPlane.cpp */,
 				DC1E9B2B1B0246CE00A4F7DB /* DrSphere.cpp */,
+				DCA005B71B0B40A700098D7D /* DrTriangle.cpp */,
 			);
 			path = geometry;
 			sourceTree = "<group>";
@@ -172,6 +176,7 @@
 				DC8FEE381AE7B1D000FCDE49 /* DrGeometry.h */,
 				DC8FEE3B1AE7B1E800FCDE49 /* DrSphere.h */,
 				DC8FEE5B1AEA061700FCDE49 /* DrPlane.h */,
+				DCA005B41B0B3F8700098D7D /* DrTriangle.h */,
 			);
 			path = geometry;
 			sourceTree = "<group>";
@@ -268,6 +273,7 @@
 				DC1E9B3B1B024DB300A4F7DB /* DrLighter.cpp in Sources */,
 				DC1E9B261B02467000A4F7DB /* DrRay.cpp in Sources */,
 				DC1E9B2D1B0246CE00A4F7DB /* DrPlane.cpp in Sources */,
+				DCA005B81B0B40A700098D7D /* DrTriangle.cpp in Sources */,
 				DC1E9B421B024DDE00A4F7DB /* DrGridTexture.cpp in Sources */,
 				DC1E9B431B024DDE00A4F7DB /* DrImageTexture.cpp in Sources */,
 				DC1E9B441B024DDE00A4F7DB /* DrTexture.cpp in Sources */,

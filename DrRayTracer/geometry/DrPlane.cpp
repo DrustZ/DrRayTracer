@@ -51,6 +51,20 @@ void DrPlane::getAppearance(DrVector& vec, OpticalProperty& property){
  */
 bool DrPlane::getRefraction(DrVector& refraction, const DrVector& point,
                    const DrVector& view, bool inside){
-    return false;
+    double factor = transparency;
+    if (inside) factor = 1 / factor;
+    //    std::cout <<factor <<std::endl;
+    
+    DrVector normal = getNormal(point);
+    if (normal * view > 0) normal = -normal;
+    double cos1 = -view * normal;
+    //    std::cout << "cos1  " << cos1 << std::endl;
+    double cos2 =  sqrt(1-1/sqr(factor)*(1-sqr(cos1)));
+    if (cos2 > 0){
+        refraction = view;
+        refraction = refraction * (1/factor) - normal * (cos2 - 1/factor * cos1);
+        return true;
+    } else
+        return false;
 }
 

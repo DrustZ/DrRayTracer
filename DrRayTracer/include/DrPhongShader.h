@@ -28,18 +28,17 @@ public:
         DrColor ret;
 
         DrVector point_to_light = DrVector(pt, lighter.position).getNormalize();
-
         
         //理想漫反射
         double cosin = point_to_light * warp_nrm;
-        if (cosin > 0){
+        if (getSign(cosin) >= 0){
             ret += app.diffuse * lighter.color
             * lighter.intensity * cosin;
         }
             
         //镜面反射光
         cosin = -ray.direction * point_to_light.reflection(warp_nrm);
-        if (cosin > 0){
+        if (getSign(cosin) > 0){
             ret += lighter.color * lighter.intensity *
                     app.specular * pow(cosin, app.spec_exp);
         }

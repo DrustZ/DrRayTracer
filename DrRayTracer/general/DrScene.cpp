@@ -30,7 +30,9 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     int index = 0;
     DrPnt<DrGeometry> pnt = DrPnt<DrGeometry>(NULL);
     double dist = getInsection(ray, pnt, index);
-    if (!pnt) return BLACK;
+    if (!pnt) {
+        return BLACK;
+    }
     
     DrVector point = ray.getPoint(dist);
      OpticalProperty prop;
@@ -40,9 +42,9 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     
     route += (weight + 1) * index;//naive, need to be improved
     
-    DrColor color;
+    DrColor color ;
     //int meet_lighter_index = -1;
-    
+
     for (auto &i: lights){
         double dist_to_light = i->inside(ray);
         if (getSign(dist_to_light) > 0 && dist > dist_to_light){
@@ -56,10 +58,10 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
             
             DrVector pos = i->position;
             DrRay lray = DrRay(pos, l_to_p);
-            if (testShadow(lray, maxdis)){
+            if (testShadow(lray, maxdis, pnt)){
                 continue;
             }
-        
+            
             color += DrPhongShader::get_shade(point, prop, norm, ray, *i, m_ambient) * weight;
         }
         else //矩形光源
@@ -82,7 +84,7 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
                     l_to_p.normalize();
 
                     DrRay lray = DrRay(temp_lighter.position, l_to_p);
-                    if (testShadow(lray, maxdis)){
+                    if (testShadow(lray, maxdis, pnt)){
                         fra_shade -= 1 / pow(number, 2); //这条阴影射线占的比例
                         continue;
                     }
@@ -138,12 +140,15 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     return color;
 }
 
-bool DrScene::testShadow(const DrRay &ray, double max_dist){
+bool DrScene::testShadow(const DrRay &ray, double max_dist, const DrPnt<DrGeometry> &ii){
     for (const auto &i: objs){
         if (i->intersect(ray)){
             double dis = i->intersection(ray);
-            if (getSign(dis-max_dist) < 0)
-                return true;
+            if (getSign(dis - max_dist) < 0){
+                if (i != ii){
+                    return true;
+                }
+            }
         }
     }
     return false;
@@ -165,5 +170,3 @@ double DrScene::getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx)
     }
     return mindis;
 }
-
-
