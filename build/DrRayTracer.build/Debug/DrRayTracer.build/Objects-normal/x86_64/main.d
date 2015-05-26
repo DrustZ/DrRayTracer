@@ -28,4 +28,5 @@ dependencies: \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrGridTexture.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrWoodenTexture.h \
   /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/texture/DrImageTexture.h \
-  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/geometry/DrTriangle.h
+  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/geometry/DrTriangle.h \
+  /Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/include/DrObjReader.h

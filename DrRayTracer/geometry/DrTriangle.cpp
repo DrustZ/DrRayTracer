@@ -15,6 +15,21 @@ DrTriangle::DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v
     d = normal * v1;
 }
 
+DrTriangle::DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v3){
+    m_v0 = v1;
+    m_v1 = v2;
+    m_v2 = v3;
+    e1 = v2 - v1;
+    e2 = v3 - v1;
+    normal = e1.cross(e2).getNormalize();
+    insert_value = false;
+    d = normal * v1;
+}
+
+void DrTriangle::getTex(DrPnt<DrTexture>& tex, bool ref, double refr = 0.5, double trans = 1.5){
+    DrGeometry::getTex(tex, refr, refr, trans);
+}
+
 double DrTriangle::intersection(const DrRay& ray){
     double t = normal * ray.direction;
     double dist = (d - ray.startpoint.dot(normal)) / t;

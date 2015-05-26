@@ -19,6 +19,7 @@
 #include "DrLighter.h"
 #include "DrRectLighter.h"
 #include "DrTriangle.h"
+#include "DrObjReader.h"
 
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
@@ -44,7 +45,10 @@ int main() {
     using std::string;
     
     addLighters();
-    addObjects();
+//    addObjects();
+    DrObjReader reader("/Users/zmr/codes/c_c++/Graphics/rayTracerSources/cornell-box/CornellBox-Empty-White.obj");
+    if(reader.read()) reader.load(scene);
+    
     DrCamera::CameraConfigure conf;
     conf.open_alias = true;
     DrCamera camera(conf, scene);

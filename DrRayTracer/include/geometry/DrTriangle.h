@@ -15,6 +15,10 @@ class DrTriangle : public DrGeometry {
 public:
     DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v3, DrPnt<DrTexture>& tex, bool ref, double refr, double trans);
     
+    DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v3);
+
+    void getTex( DrPnt<DrTexture>& tex, bool ref, double refr, double trans );
+    
     DrVector get_v0() const
     { return m_v0; }
     DrVector get_v1() const

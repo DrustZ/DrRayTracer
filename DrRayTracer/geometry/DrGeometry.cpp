@@ -12,5 +12,12 @@ DrGeometry::DrGeometry(DrPnt<DrTexture> tex, bool ref, double refr, double trans
     
 }
 
+DrGeometry::DrGeometry() : m_texture(nullptr){}
 
-
+void DrGeometry::getTex(DrPnt<DrTexture> tex, bool ref, double refr, double trans){
+    m_texture = tex;
+    reflective = ref;
+    transparency = trans;
+    absorb = BLACK;
+    refrand = refr;
+}

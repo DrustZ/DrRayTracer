@@ -25,7 +25,11 @@ public:
     //refrand 为漫反射参数
     DrGeometry(DrPnt<DrTexture> tex, bool ref, double refrand, double trans);
 
+    DrGeometry();
+    
     virtual ~DrGeometry(){};
+    
+    void getTex(DrPnt<DrTexture> tex, bool ref, double refrand, double trans);
     
     /*
      *获得在某点法向量
