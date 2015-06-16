@@ -7,6 +7,7 @@
 //
 
 #include "DrObjReader.h"
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -24,22 +25,24 @@ bool DrObjReader::read(){
         switch (line[i]) {
             case 'v':
             {
-                string x,y,z;
-                i += 1;
-                while(line[i] == ' ') ++i;
-                for(; line[i] != ' '; ++i)
-                    x += line[i];
-                while(line[i] == ' ') ++i;
-                for(; line[i] != ' '; ++i)
-                    y += line[i];
-                while(line[i] == ' ') ++i;
-                for(; i < line.length(); ++i)
-                    z += line[i];
-                double xx,yy,zz;
-                xx = atof(x.c_str()) * 100;
-                yy = atof(y.c_str()) * 100;
-                zz = atof(z.c_str()) * 100;
-                points.push_back(DrVector(xx, yy, zz));
+                if (line[i+1] != 'n' && line[i+1] != 't'){
+                    string x,y,z;
+                    i += 1;
+                    while(!valid(line[i])) ++i;
+                    for(; valid(line[i]); ++i)
+                        x += line[i];
+                    while(!valid(line[i])) ++i;
+                    for(; valid(line[i]); ++i)
+                        y += line[i];
+                    while(!valid(line[i])) ++i;
+                    for(; valid(line[i]); ++i)
+                        z += line[i];
+                    double xx,yy,zz;
+                    xx = stod(x);// * 100;
+                    yy = stod(y);// * 100;
+                    zz = stod(z);// * 100;
+                    points.push_back(DrVector(xx, yy, zz));
+                }
             }
                 break;
                 
@@ -58,13 +61,13 @@ bool DrObjReader::read(){
                     index2 = atoi(internal[1].c_str());
                     index3 = atoi(internal[2].c_str());
                     if (index1 < 0){
-                        index1 = points.size() + index1;
-                        index2 = points.size() + index2;
-                        index3 = points.size() + index3;
+                        index1 = int(points.size()) + index1;
+                        index2 = int(points.size()) + index2;
+                        index3 = int(points.size()) + index3;
                     } else {
-                        index1 += 1;
-                        index2 += 1;
-                        index3 += 1;
+                        index1 -= 1;
+                        index2 -= 1;
+                        index3 -= 1;
                     }
                     triangles.push_back(DrTriangle(points[index1], points[index2], points[index3]));
                 }
@@ -75,15 +78,15 @@ bool DrObjReader::read(){
                     index3 = atoi(internal[2].c_str());
                     index4 = atoi(internal[3].c_str());
                     if (index1 < 0){
-                        index1 = points.size() + index1;
-                        index2 = points.size() + index2;
-                        index3 = points.size() + index3;
-                        index4 = points.size() + index4;
+                        index1 = int(points.size()) + index1;
+                        index2 = int(points.size()) + index2;
+                        index3 = int(points.size()) + index3;
+                        index4 = int(points.size()) + index4;
                     } else {
-                        index1 += 1;
-                        index2 += 1;
-                        index3 += 1;
-                        index4 += 1;
+                        index1 -= 1;
+                        index2 -= 1;
+                        index3 -= 1;
+                        index4 -= 1;
                     }
                     triangles.push_back(DrTriangle(points[index1], points[index2], points[index3]));
                     triangles.push_back(DrTriangle(points[index3], points[index4], points[index1]));
@@ -114,4 +117,25 @@ void DrObjReader::load(DrScene& scene){
         DrPnt<DrGeometry> shape = DrPnt<DrGeometry>(&triangles[i]);
         scene.addObj(shape);
     }
+}
+
+double DrObjReader::stod(std::string &s){
+    using namespace std;
+    double num = 0;
+    int cnt = 0;
+    bool neg = false, frac = false;
+    for (int i = 0; i < s.length(); ++i){
+        if (s[i] == '-') { neg = true; continue; }
+        if (s[i] == '.') { cnt = 1; frac = true; continue; }
+        if ('0' > s[i] || s[i] > '9') continue;
+        if (frac) { num += (s[i] - '0') / pow(10, cnt);  cnt++; continue; }
+        num = (s[i] - '0') + num * 10;
+    }
+    if (neg) num = -num;
+    return num;
+}
+
+bool DrObjReader::valid(char &n){
+    if (('0' <= n && n <= '9') || (n == '-') || (n == '.') ) return true;
+    return false;
 }

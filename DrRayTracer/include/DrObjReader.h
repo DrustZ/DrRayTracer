@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <vector>
 #include <fstream>
+#include <string>
 #include "DrMath.h"
 #include "DrScene.h"
 #include "DrTriangle.h"
@@ -23,6 +24,8 @@ public:
     DrObjReader(char * filename);
     bool read();
     void load(DrScene& scene);
+    double stod(std::string& s);
+    bool valid(char &n);
     
 private:
     char * m_file;

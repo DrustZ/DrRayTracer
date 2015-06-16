@@ -46,11 +46,11 @@ int main() {
     
     addLighters();
 //    addObjects();
-    DrObjReader reader("/Users/zmr/codes/c_c++/Graphics/rayTracerSources/cornell-box/CornellBox-Empty-White.obj");
+    DrObjReader reader("/Users/zmr/codes/c_c++/Graphics/rayTracerSources/teapot.obj");
     if(reader.read()) reader.load(scene);
     
     DrCamera::CameraConfigure conf;
-    conf.open_alias = true;
+//    conf.open_alias = true;
     DrCamera camera(conf, scene);
     camera.getEyePosition(eye, lookat, up);
     camera.startProcess(Result);
