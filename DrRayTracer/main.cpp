@@ -30,8 +30,8 @@ cv::Mat Result = cv::Mat::zeros(600, 600, CV_32FC3);
 int tempint;
 double tempdouble;
 
-DrVector eye = DrVector(0,-500,200);
-DrVector lookat = DrVector(0,100,-50);
+DrVector eye = DrVector(0,-50,300);
+DrVector lookat = DrVector(0,100,-350);
 DrVector up = DrVector(0,0,-1);
 
 void workThread(int index);
@@ -46,7 +46,7 @@ int main() {
     
     addLighters();
 //    addObjects();
-    DrObjReader reader("/Users/zmr/codes/c_c++/Graphics/rayTracerSources/teapot.obj");
+    DrObjReader reader("/Users/zmr/codes/c_c++/Graphics/rayTracerSources/cornell-box/CornellBox-Empty-Squashed.obj", 100);
     if(reader.read()) reader.load(scene);
     
     DrCamera::CameraConfigure conf;
@@ -141,17 +141,17 @@ void addObjects()
         texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/wood.jpg", prop, 3, 3));
     
         DrPnt<DrGeometry> planeB = DrPnt<DrGeometry>(new DrPlane(dv, 0, texture, true, 0, 1.2));
-//        scene.addObj(planeB);
+        scene.addObj(planeB);
         prop.diffuse = DrColor(0.6, 0.6, 0.6);
-        prop.reflection = 0;
-        prop.transparency = 0.6;
+        prop.reflection = 1;
+        prop.transparency = 0;
         texture = DrPnt<DrTexture>(new DrUniformTexture(prop));
 //
         dv = DrVector(0,1,0).getNormalize();
 //        texture = DrPnt<DrTexture>(new DrImageTexture("/Users/zmr/Pictures/pictures/beach.jpg", prop, 1, 0.9));
         DrPnt<DrGeometry> planeC = DrPnt<DrGeometry>(new DrPlane(dv, 00, texture, false, 0, 1));
-//        scene.addObj(planeC);
-        DrPnt<DrGeometry> triangle = DrPnt<DrGeometry>(new DrTriangle(DrVector(-50,0,0), DrVector(150,30,0), DrVector(30,0,200), texture, true, 0, 1.2));
+        scene.addObj(planeC);
+        DrPnt<DrGeometry> triangle = DrPnt<DrGeometry>(new DrTriangle(DrVector(-50,0,0), DrVector(150,-30,0), DrVector(30,-30,200), texture, true, 0, 1.2));
         scene.addObj(triangle);
     
 }
@@ -163,13 +163,13 @@ void addLighters()
 {
     DrVector dv2 = DrVector(0,-40,200);
     DrPnt<DrLighter> lighter = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.7));
-    dv2 = DrVector(50, -200, 50);
-    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.8));
+    dv2 = DrVector(15, 158, 20);
+    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.7));
     DrVector dvright = DrVector(20, 100, 200);
     DrVector dvdown = DrVector(-20, 60, 200);
     
     DrPnt<DrLighter> lighter_rect = DrPnt<DrLighter>(new DrRectLighter(dv2, WHITE, 0.8, dvright, dvdown));
-    scene.addlights(lighter);
+//    scene.addlights(lighter);
         scene.addlights(lighter2);
 //    scene.addlights(lighter_rect);
 

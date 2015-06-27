@@ -66,12 +66,12 @@ private:
     std::mutex * lines;
     int ** Pixels;
     int threads;
-    int thread_amount[9];
+    int thread_amount[10];
     CameraConfigure conf;
     cv::Mat Result;
     DrVector u,v,w,eye;
     DrScene scene;
-    
+
     /*
      * 针对相机坐标系，产生视线，并进行像素点到世界坐标的向量转换
      * x 为 像素第 x 列， y 为 第y行， height 为 投射屏幕与小孔的距离， nx 表示 总列数， ny 表示 总行数

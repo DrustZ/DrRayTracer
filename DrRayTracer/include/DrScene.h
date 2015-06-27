@@ -62,7 +62,8 @@ public:
      *返回值为交点到视点的距离
      */
     double getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx);
-   
+    
+    int getObjAmount() {return objs.size(); }
 };
 
 

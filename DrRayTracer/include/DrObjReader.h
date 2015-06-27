@@ -21,15 +21,19 @@
 
 class DrObjReader{
 public:
-    DrObjReader(char * filename);
+    DrObjReader(char * filename, double r);
     bool read();
     void load(DrScene& scene);
-    double stod(std::string& s);
+    double stod(const std::string& s);
     bool valid(char &n);
-    
+    std::string trim(const std::string& s);
+
 private:
     char * m_file;
+    double rate = 2;
     std::vector<DrVector> points;
+    std::vector<DrVector> tex_ord;
+    std::vector<DrVector> pnt_normal;
     std::vector<DrTriangle> triangles;
 };
 

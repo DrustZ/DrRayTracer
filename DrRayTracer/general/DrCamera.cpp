@@ -7,9 +7,20 @@
 //
 
 #include "DrCamera.h"
-
 DrCamera::DrCamera(CameraConfigure& configure, DrScene &scn):conf(configure),scene(scn){
-    threads = 4;
+    threads = 5;
+    
+    //一个二维数组，对应每一个像素，
+    //作为超级样本之用（反锯齿，每一个项记录对应像素点发出光线追踪物体的路径，如果相邻像素点追踪路径不同，则需要反锯齿化）
+    //路径比较用hash来记录。
+    Pixels = new int *[1000];
+    Pixels[0] = new int[1000];
+    for (int i = 1; i < 1000; ++i)
+        Pixels[i] = Pixels[i-1] + Result.cols;
+    
+    for (int i = 0; i < 1000; ++i)
+        for (int j = 0; j < 1000; ++j)
+            Pixels[i][j] = 0;
 }
 
 void DrCamera::startProcess(cv::Mat& image){
@@ -17,17 +28,6 @@ void DrCamera::startProcess(cv::Mat& image){
     using std::endl;
     Result = image;
     
-    //一个二维数组，对应每一个像素，
-    //作为超级样本之用（反锯齿，每一个项记录对应像素点发出光线追踪物体的路径，如果相邻像素点追踪路径不同，则需要反锯齿化）
-    //路径比较用hash来记录。
-    Pixels = new int *[Result.rows];
-    Pixels[0] = new int[Result.cols * Result.rows];
-    for (int i = 1; i < Result.rows; ++i)
-        Pixels[i] = Pixels[i-1] + Result.cols;
-    
-    for (int i = 0; i < Result.rows; ++i)
-        for (int j = 0; j < Result.cols; ++j)
-            Pixels[i][j] = 0;
     /**
      *  多线程
      */

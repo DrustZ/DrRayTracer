@@ -12,6 +12,7 @@ DrTriangle::DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v
     e2 = v3 - v1;
     normal = e1.cross(e2).getNormalize();
     insert_value = false;
+    got_tex = false;
     d = normal * v1;
 }
 
@@ -27,7 +28,7 @@ DrTriangle::DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v
 }
 
 void DrTriangle::getTex(DrPnt<DrTexture>& tex, bool ref, double refr = 0.5, double trans = 1.5){
-    DrGeometry::getTex(tex, refr, refr, trans);
+    DrGeometry::getTex(tex, ref, refr, trans);
 }
 
 double DrTriangle::intersection(const DrRay& ray){
@@ -73,13 +74,19 @@ bool DrTriangle::intersect(const DrRay &ray){
         return 0;
 }
 
-void DrTriangle::getVn(DrVector &vn1, DrVector &vn2, DrVector &vn3){
+void DrTriangle::setVn(DrVector &vn1, DrVector &vn2, DrVector &vn3){
     normal_v1 = vn1;
     normal_v2 = vn2;
     normal_v3 = vn3;
     insert_value = true;
 }
 
+void DrTriangle::setText(DrVector &t1, DrVector &t2, DrVector &t3){
+    tex0 = t1;
+    tex1 = t2;
+    tex2 = t3;
+    got_tex = true;
+}
 
 DrVector DrTriangle::getNormal(const DrVector &v){
     if (!insert_value)

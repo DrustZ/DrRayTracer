@@ -16,9 +16,8 @@ public:
     DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v3, DrPnt<DrTexture>& tex, bool ref, double refr, double trans);
     
     DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v3);
+    void getTex(DrPnt<DrTexture>& tex, bool ref, double refr, double trans);
 
-    void getTex( DrPnt<DrTexture>& tex, bool ref, double refr, double trans );
-    
     DrVector get_v0() const
     { return m_v0; }
     DrVector get_v1() const
@@ -68,14 +67,25 @@ public:
     /*
      *获得顶点法向量
      */
-    void getVn(DrVector &vn1, DrVector &vn2, DrVector &vn3);
+    void setVn(DrVector &vn1, DrVector &vn2, DrVector &vn3);
     
+    /*
+     *获取材质
+     */
+//    void getAppearance(DrVector& vec, OpticalProperty& property);
+
+    /*
+     *获得顶点纹理坐标
+     */
+    void setText(DrVector &t1, DrVector &t2, DrVector &t3);
+
 private:
     DrVector normal,normal_v1,normal_v2,normal_v3,
+             tex0, tex1, tex2,
              m_v0, m_v1, m_v2,
              e1, e2;//v0 - v1, v0 - v2;
     double t, beta, gamma, d;
-    bool insert_value;
+    bool insert_value, got_tex;
 };
 
 #endif /* defined(__DrRayTracer__DrTriangle__) */

@@ -19,9 +19,9 @@
 		DC1E9B431B024DDE00A4F7DB /* DrImageTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1E9B3F1B024DDE00A4F7DB /* DrImageTexture.cpp */; };
 		DC1E9B441B024DDE00A4F7DB /* DrTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1E9B401B024DDE00A4F7DB /* DrTexture.cpp */; };
 		DC1E9B451B024DDE00A4F7DB /* DrWoodenTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC1E9B411B024DDE00A4F7DB /* DrWoodenTexture.cpp */; };
-		DC4B35B41B14393D007D422D /* DrObjReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC4B35B21B14393D007D422D /* DrObjReader.cpp */; };
 		DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DC8FEE581AE7BF3100FCDE49 /* main.cpp */; };
 		DCA005B81B0B40A700098D7D /* DrTriangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCA005B71B0B40A700098D7D /* DrTriangle.cpp */; };
+		DCE48FDC1B3F248300B875EB /* DrObjReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DCE48FDB1B3F248300B875EB /* DrObjReader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,7 +51,6 @@
 		DC1E9B3F1B024DDE00A4F7DB /* DrImageTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrImageTexture.cpp; sourceTree = "<group>"; };
 		DC1E9B401B024DDE00A4F7DB /* DrTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrTexture.cpp; sourceTree = "<group>"; };
 		DC1E9B411B024DDE00A4F7DB /* DrWoodenTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrWoodenTexture.cpp; sourceTree = "<group>"; };
-		DC4B35B21B14393D007D422D /* DrObjReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrObjReader.cpp; sourceTree = "<group>"; };
 		DC4B35B31B14393D007D422D /* DrObjReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrObjReader.h; sourceTree = "<group>"; };
 		DC8FEE241AE7B12E00FCDE49 /* DrRayTracer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DrRayTracer; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC8FEE381AE7B1D000FCDE49 /* DrGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrGeometry.h; sourceTree = "<group>"; };
@@ -72,6 +71,7 @@
 		DCC0DEA91AEA825900FACC4A /* DrGridTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrGridTexture.h; sourceTree = "<group>"; };
 		DCC0DEAC1AEA8FE900FACC4A /* DrWoodenTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrWoodenTexture.h; sourceTree = "<group>"; };
 		DCC86ABF1AF0B4E500C39AAB /* DrRectLighter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrRectLighter.h; sourceTree = "<group>"; };
+		DCE48FDB1B3F248300B875EB /* DrObjReader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DrObjReader.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,8 +169,8 @@
 				DC8FEE501AE7B25B00FCDE49 /* DrMath.h */,
 				DC8FEE531AE7B26B00FCDE49 /* DrScene.h */,
 				DC8FEE561AE7B27400FCDE49 /* DrColor.h */,
-				DC4B35B21B14393D007D422D /* DrObjReader.cpp */,
 				DC4B35B31B14393D007D422D /* DrObjReader.h */,
+				DCE48FDB1B3F248300B875EB /* DrObjReader.cpp */,
 			);
 			path = include;
 			sourceTree = "<group>";
@@ -270,7 +270,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC4B35B41B14393D007D422D /* DrObjReader.cpp in Sources */,
+				DCE48FDC1B3F248300B875EB /* DrObjReader.cpp in Sources */,
 				DC1E9B2C1B0246CE00A4F7DB /* DrGeometry.cpp in Sources */,
 				DC8FEE591AE7BF3100FCDE49 /* main.cpp in Sources */,
 				DC1E9B451B024DDE00A4F7DB /* DrWoodenTexture.cpp in Sources */,
