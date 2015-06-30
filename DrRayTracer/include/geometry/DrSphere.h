@@ -38,7 +38,7 @@ public:
      */
     void getAppearance(DrVector& vec, OpticalProperty& property);
     
-    void sayMyself() { std::cout << "class : sphere" << std::endl; }
+    int sayMyself() { std::cout << "class : sphere" << std::endl; return 2;}
     double getRadius() const
     { return radius; }
     

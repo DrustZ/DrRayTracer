@@ -11,7 +11,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-
 DrObjReader::DrObjReader(char* filename, double r):m_file(filename),rate(r){}
 
 bool DrObjReader::read(){
@@ -161,7 +160,7 @@ bool DrObjReader::read(){
                     stringstream ss(line.substr(i+2)); // Turn the string into a stream.
                     string tok;
                     while(getline(ss, tok, ' ')) {
-                        if (tok != " ")
+                        if (!tok.empty() && (tok[0] - '-' >= 0) )
                             internal.push_back(tok);
                     }
                     if (internal.size() == 3){
@@ -200,6 +199,7 @@ bool DrObjReader::read(){
                             }
                         }
                         triangles.push_back(tri);
+//                        cout << tri.get_v0() << tri.get_v1() << tri.get_v2() << endl;
                     }
                     else {
                         int index1, index2, index3, index4;
@@ -218,12 +218,10 @@ bool DrObjReader::read(){
                             index3 -= 1;
                             index4 -= 1;
                         }
-                    
                         bool refreaction = prop.reflection > 0 ? true : false;
-                        printf("%d %f %f %f\n", index1, points[index1].x, points[index1].y, points[index1].z);
+                        
                         DrTriangle tri1 = DrTriangle(points[index1], points[index2], points[index3], texture, refreaction, 0, 1.5);
                         DrTriangle tri2 = DrTriangle(points[index3], points[index4], points[index1], texture, refreaction, 0, 1.5);
-                        
                         triangles.push_back(tri1);
                         triangles.push_back(tri2);
                     }
@@ -234,13 +232,15 @@ bool DrObjReader::read(){
             }
         }
     }
-    cout << triangles.size();
+    cout << triangles.size() ;
     return true;
 }
 
 void DrObjReader::load(DrScene& scene){
+    using namespace std;
     for (int i = 0; i < triangles.size(); ++i) {
         DrPnt<DrGeometry> shape = DrPnt<DrGeometry>(&triangles[i]);
+       
         scene.addObj(shape);
     }
     std::cout << "gong : " << scene.getObjAmount();

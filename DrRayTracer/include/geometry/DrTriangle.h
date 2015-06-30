@@ -62,7 +62,7 @@ public:
     
     double metrix(const DrVector &v1,const DrVector &v2,const DrVector &v3);
 
-    void sayMyself() { std::cout << "class : triangle" << std::endl; }
+    int sayMyself() { return 4;}
     
     /*
      *获得顶点法向量
@@ -79,7 +79,7 @@ public:
      */
     void setText(DrVector &t1, DrVector &t2, DrVector &t3);
 
-private:
+public:
     DrVector normal,normal_v1,normal_v2,normal_v3,
              tex0, tex1, tex2,
              m_v0, m_v1, m_v2,

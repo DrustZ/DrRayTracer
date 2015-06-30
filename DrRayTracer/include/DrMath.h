@@ -40,6 +40,30 @@ static inline double div(double a, double b){
         return 1e10 * getSign(a);
     else return a/b;
 }
+
+
+static inline int findmax(double a, double b, double c){
+    if (getSign(a - b) > 0){
+        if (getSign(a - c) > 0)
+            return 0;
+        else return 2;
+    }
+    else if (getSign(b - c) > 0)
+        return 1;
+    return 2;
+}
+
+static inline int findmin(double a, double b, double c){
+    if (getSign(a - b) < 0){
+        if (getSign(a - c) < 0)
+            return 0;
+        else return 2;
+    }
+    else if (getSign(b - c) < 0)
+        return 1;
+    return 2;
+}
+
 //
 ///**
 // *  root of linear equation c1 * x + c0 = 0
@@ -220,4 +244,21 @@ struct DrVector
         return DrVector(DrVector(v.x * dot(v)*2, v.y * dot(v)*2, v.z * dot(v)*2) - *this);
     }
 };
+
+struct KdTriInfo{
+    int idx;
+    DrVector p[3];
+    int bx, lx, by, ly, bz, lz;
+    void getIdx(int i){idx = i;}
+    void getPnts(const DrVector& p11,const DrVector& p22,const DrVector& p33){
+        p[0] = p11; p[1] = p22; p[2] = p33;
+        bx = findmax(p11.x, p22.x, p33.x);
+        by = findmax(p11.y, p22.y, p33.y);
+        bz = findmax(p11.z, p22.z, p33.z);
+        lx = findmin(p11.x, p22.x, p33.x);
+        ly = findmin(p11.y, p22.y, p33.y);
+        lz = findmin(p11.z, p22.z, p33.z);
+    }
+};
+
 #endif /* defined(__DrRayTracer__DrMath__) */

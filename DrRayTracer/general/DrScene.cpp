@@ -29,11 +29,11 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     if (weight < min_weight) return BLACK;
     int index = 0;
     DrPnt<DrGeometry> pnt = DrPnt<DrGeometry>(NULL);
-    double dist = getInsection(ray, pnt, index);
+    double dist = getKdInsection(ray, pnt, index, root);
     if (!pnt) {
         return BLACK;
     }
-    
+//    cout << "hey~" << endl;
     DrVector point = ray.getPoint(dist);
      OpticalProperty prop;
      pnt->getAppearance(point, prop);
@@ -58,10 +58,10 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
             
             DrVector pos = i->position;
             DrRay lray = DrRay(pos, l_to_p);
-            if (testShadow(lray, maxdis, pnt)){
+            if (testKdShadow(lray, maxdis, pnt, root)){
                 continue;
             }
-            
+//            cout << "hi~" << endl;
             color += DrPhongShader::get_shade(point, prop, norm, ray, *i, m_ambient) * weight;
         }
         else //矩形光源
@@ -84,7 +84,7 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
                     l_to_p.normalize();
 
                     DrRay lray = DrRay(temp_lighter.position, l_to_p);
-                    if (testShadow(lray, maxdis, pnt)){
+                    if (testKdShadow(lray, maxdis, pnt, root)){
                         fra_shade -= 1 / pow(number, 2); //这条阴影射线占的比例
                         continue;
                     }
@@ -144,14 +144,77 @@ bool DrScene::testShadow(const DrRay &ray, double max_dist, const DrPnt<DrGeomet
     for (const auto &i: objs){
         if (i->intersect(ray)){
             double dis = i->intersection(ray);
-            if (getSign(dis - max_dist) < 0){
-                if (i != ii){
+            if (getSign(dis - max_dist) < 0)
+                if (i != ii)
                     return true;
-                }
-            }
         }
     }
     return false;
+}
+
+void DrScene::initKd(){
+    for (int i = 0; i < objs.size(); ++i){
+        if (objs[i]->sayMyself() == 4){
+            KdTriInfo temp;
+            temp.getIdx(i);
+            temp.getPnts(objs[i]->get_v0(), objs[i]->get_v1(), objs[i]->get_v2());
+            Triangles.push_back(temp);
+        }
+    }
+    root = new DrKd((int)Triangles.size());
+    root->type = 1;
+    for (int i = 0; i < (int)Triangles.size(); ++i)
+        root->lxsorted[i] = i;
+    root->build(0);
+}
+
+bool DrScene::testKdShadow(const DrRay &ray, double max_dist, const DrPnt<DrGeometry> &ii, DrKd *&now)
+{
+    DrPnt<DrGeometry> pnt = DrPnt<DrGeometry>(NULL);
+    int idd = 0;
+    double dis = getKdInsection(ray, pnt, idd, root);
+    if (pnt != NULL && getSign(dis - max_dist) < 0)
+            if (pnt != ii) return true;
+    return false;
+}
+
+double DrScene::getKdInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx, DrKd* &now){
+    if (!now->empty && !now->leaf){
+//        if (now == root && now->getIntersect(ray, 3) == -1) return -1;
+        double disl = now->getIntersect(ray,1);//test intersection with lson
+        double disr = now->getIntersect(ray,2);//test intersection with rson
+//        printf(" %f %f\n",disl,disr);
+        if (disl == -1)
+            if (disr == -1){//no intersection
+                return -1;
+            } else return getKdInsection(ray, pnt, idx, now->rson);
+        if (disr == -1) return getKdInsection(ray, pnt, idx, now->lson);
+        if (disl <= disr){
+            double dis = getKdInsection(ray, pnt, idx, now->lson);
+            if (!pnt)//no intersection
+                return getKdInsection(ray, pnt, idx, now->rson);
+            else return dis;
+        } else {
+            double dis = getKdInsection(ray, pnt, idx, now->rson);
+            if (!pnt)//no intersection
+                return getKdInsection(ray, pnt, idx, now->lson);
+            else return dis;
+        }
+    }
+    if (now->empty) return -1;
+    double mindis = std::numeric_limits<double>::max();
+    for (int j = 0; j < now->size; ++j){
+        int i = now->lxsorted[j];
+        if (objs[Triangles[i].idx]->intersect(ray)){
+            double dis = objs[Triangles[i].idx]->intersection(ray);
+            if (dis < mindis){
+                mindis = dis;
+                pnt = objs[Triangles[i].idx];
+                idx = Triangles[i].idx;
+            }
+        }
+    }
+    return mindis;
 }
 
 double DrScene::getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx){

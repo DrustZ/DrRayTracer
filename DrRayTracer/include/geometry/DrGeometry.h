@@ -63,7 +63,7 @@ public:
     virtual bool getRefraction(DrVector& refraction, const DrVector& point, 
                                const DrVector& view, bool inside) = 0;
 
-    virtual void sayMyself() { std::cout << "class : geometry" << std::endl; }
+    virtual int sayMyself() { std::cout << "class : geometry" << std::endl; return 1;}
 
     /*
      *获得材质
@@ -71,6 +71,13 @@ public:
     virtual void getAppearance(DrVector& vec, OpticalProperty& property)
     { m_texture->getProperty(vec, property); }
 
+    virtual DrVector get_v0() const
+    { return DrVector(0,0,0); }
+    virtual DrVector get_v1() const
+    { return DrVector(0,0,0); }
+    virtual DrVector get_v2() const
+    { return DrVector(0,0,0); }
+    
     void setAbsorb(DrColor c)
     { absorb = c; }
     

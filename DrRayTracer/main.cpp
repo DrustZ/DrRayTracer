@@ -30,8 +30,8 @@ cv::Mat Result = cv::Mat::zeros(600, 600, CV_32FC3);
 int tempint;
 double tempdouble;
 
-DrVector eye = DrVector(0,-50,300);
-DrVector lookat = DrVector(0,100,-350);
+DrVector eye = DrVector(0,-500,200);
+DrVector lookat = DrVector(0,100,-50);
 DrVector up = DrVector(0,0,-1);
 
 void workThread(int index);
@@ -46,11 +46,11 @@ int main() {
     
     addLighters();
 //    addObjects();
-    DrObjReader reader("/Users/zmr/codes/c_c++/Graphics/rayTracerSources/cornell-box/CornellBox-Empty-Squashed.obj", 100);
+    DrObjReader reader("/Users/zmr/codes/c_c++/Graphics/rayTracerSources/cornell-box/CornellBox-Glossy.obj", 300);
     if(reader.read()) reader.load(scene);
-    
+    scene.initKd();
     DrCamera::CameraConfigure conf;
-//    conf.open_alias = true;
+////    conf.open_alias = true;
     DrCamera camera(conf, scene);
     camera.getEyePosition(eye, lookat, up);
     camera.startProcess(Result);
@@ -163,14 +163,15 @@ void addLighters()
 {
     DrVector dv2 = DrVector(0,-40,200);
     DrPnt<DrLighter> lighter = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.7));
-    dv2 = DrVector(15, 158, 20);
-    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.7));
-    DrVector dvright = DrVector(20, 100, 200);
+    dv2 = DrVector(100, 500, 60);
+    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.8));
+    DrVector dvright = DrVector(0, -300, 20);
     DrVector dvdown = DrVector(-20, 60, 200);
-    
+    DrPnt<DrLighter> lighter3 = DrPnt<DrLighter>(new DrLighter(dvright, WHITE, 0.8));
     DrPnt<DrLighter> lighter_rect = DrPnt<DrLighter>(new DrRectLighter(dv2, WHITE, 0.8, dvright, dvdown));
-//    scene.addlights(lighter);
-        scene.addlights(lighter2);
+    scene.addlights(lighter);
+    scene.addlights(lighter2);
+    scene.addlights(lighter3);
 //    scene.addlights(lighter_rect);
 
 }

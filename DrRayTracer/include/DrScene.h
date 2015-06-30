@@ -9,6 +9,8 @@
 #ifndef __DrRayTracer__DrScene__
 #define __DrRayTracer__DrScene__
 #include "DrPhongShader.h"
+#include "DrKd.h"
+#include "DrTriangle.h"
 #include "geometry/DrPlane.h"
 #include "geometry/DrSphere.h"
 #include "Lighter/DrLighter.h"
@@ -25,6 +27,7 @@ class DrScene
     int max_dep, min_weight;
     DrColor m_ambient;
     DrVector eye, u, v, w;
+    DrKd * root;
     
 public:
     
@@ -57,13 +60,33 @@ public:
     bool testShadow(const DrRay &ray, double max_dist, const DrPnt<DrGeometry> &ii);
     
     /*
+     *判断遮挡的kd树实现
+     *ray为光源到到该点的向量， max_dis 表示光源到该点的距离
+     */
+    bool testKdShadow(const DrRay &ray, double max_dist, const DrPnt<DrGeometry> &ii, DrKd *&now);
+
+    /*
      *获得交点 
      *ray 为视线， pnt 为与实现相交的物体
      *返回值为交点到视点的距离
      */
     double getInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx);
     
-    int getObjAmount() {return objs.size(); }
+    /*
+     *获得交点的kd树实现
+     *ray 为视线， pnt 为与实现相交的物体
+     *返回值为交点到视点的距离
+     */
+    double getKdInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx, DrKd* &now);
+
+    /*
+     *初始化kd树
+     */
+    void initKd();
+    
+//    double getKdInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx);
+
+    int getObjAmount() {return (int)objs.size(); }
 };
 
 

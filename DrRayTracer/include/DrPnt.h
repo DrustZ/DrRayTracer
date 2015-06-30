@@ -11,7 +11,6 @@
 /**
  *  一个智能计数指针
  */
-#define NULL 0
 #include <atomic>
 
 template<typename T>
@@ -69,4 +68,5 @@ public:
     operator bool() const
     { return m_holder->ptn != NULL; }
 };
+
 #endif /* defined(__DrRayTracer__DrPnt__) */
