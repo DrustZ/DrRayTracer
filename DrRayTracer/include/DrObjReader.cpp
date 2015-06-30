@@ -53,11 +53,11 @@ bool DrObjReader::read(){
         //read mtl
         if (idx != string::npos && open_mtl) {
             has_mtl = true;
-            mtl_name = line.substr(idx+7);
+            mtl_name = trim(line.substr(idx+7));
+
             string ll;
             bool begin = false;
             while (getline(mtl, ll)){
-                
                 if (trim(ll).empty() || ll[0] == '#'){
                     if (begin) break;
                     else continue;  }
@@ -76,8 +76,9 @@ bool DrObjReader::read(){
                     continue;
                 }
                 tmpidx = int(ll.find("newmtl"));
-                if (tmpidx != string::npos && ll.find(mtl_name) != string::npos)
+                if (tmpidx != string::npos && ll.find(mtl_name) != string::npos){
                     begin = true;
+                }
             }
 
             if (has_mtl){
@@ -266,7 +267,7 @@ std::string DrObjReader::trim(const std::string &s){
     }
     std::string t = s;
     t.erase(0,t.find_first_not_of(' '));
-    t.erase(t.find_last_not_of('\n'));
+    t.erase(t.find_last_not_of('\n')+1);
     t.erase(t.find_last_not_of(' ') + 1);
     return t;
 }

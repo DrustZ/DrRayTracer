@@ -14,7 +14,7 @@
 #include "DrPnt.h"
 #include "DrMath.h"
 #include "DrRay.h"
-#define LESSTRI 10
+#define LESSTRI 50
 #define MAXDEP  20
 
 class DrKd {

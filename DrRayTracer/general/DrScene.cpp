@@ -12,7 +12,7 @@
 // Copyright (c) 2015 明瑞. All rights reserved.
 //
 #include "DrScene.h"
-
+using namespace std;
 DrScene::DrScene(int dep, int weight,const DrColor &ambinet) : max_dep(dep), min_weight(weight), m_ambient(ambinet){
     objs = std::vector<DrPnt<DrGeometry> >();
     lights = std::vector<DrPnt<DrLighter> >();
@@ -43,6 +43,7 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     route += (weight + 1) * index;//naive, need to be improved
     
     DrColor color ;
+//    color = WHITE;
     //int meet_lighter_index = -1;
 
     for (auto &i: lights){
@@ -58,10 +59,9 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
             
             DrVector pos = i->position;
             DrRay lray = DrRay(pos, l_to_p);
-            if (testKdShadow(lray, maxdis, pnt, root)){
+            if (testKdShadow(lray, maxdis, pnt,root)){
                 continue;
             }
-//            cout << "hi~" << endl;
             color += DrPhongShader::get_shade(point, prop, norm, ray, *i, m_ambient) * weight;
         }
         else //矩形光源
@@ -180,15 +180,16 @@ bool DrScene::testKdShadow(const DrRay &ray, double max_dist, const DrPnt<DrGeom
 
 double DrScene::getKdInsection(const DrRay &ray, DrPnt<DrGeometry> &pnt, int& idx, DrKd* &now){
     if (!now->empty && !now->leaf){
-//        if (now == root && now->getIntersect(ray, 3) == -1) return -1;
+        if ( now->getIntersect(ray, 3) < 0) return -1;
         double disl = now->getIntersect(ray,1);//test intersection with lson
         double disr = now->getIntersect(ray,2);//test intersection with rson
 //        printf(" %f %f\n",disl,disr);
-        if (disl == -1)
-            if (disr == -1){//no intersection
+        if (disl < 0){
+            if (disr < 0)//no intersection
                 return -1;
-            } else return getKdInsection(ray, pnt, idx, now->rson);
-        if (disr == -1) return getKdInsection(ray, pnt, idx, now->lson);
+            else return getKdInsection(ray, pnt, idx, now->rson);
+        }
+        if (disr < 0) return getKdInsection(ray, pnt, idx, now->lson);
         if (disl <= disr){
             double dis = getKdInsection(ray, pnt, idx, now->lson);
             if (!pnt)//no intersection

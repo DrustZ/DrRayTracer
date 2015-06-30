@@ -27,10 +27,9 @@ class DrScene
     int max_dep, min_weight;
     DrColor m_ambient;
     DrVector eye, u, v, w;
-    DrKd * root;
     
 public:
-    
+    DrKd * root;
     DrScene(int dep, int weight, const DrColor &ambinet);
     ~DrScene();
     

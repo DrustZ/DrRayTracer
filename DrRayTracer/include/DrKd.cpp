@@ -42,18 +42,6 @@ void DrKd::build(int depth){
     
     for (int i = 0; i < size; ++i)
         bxsorted[i] = lysorted[i] = bysorted[i] = lzsorted[i] = bzsorted[i] = lxsorted[i];
-
-    //edge conditions
-    if (depth > MAXDEP){
-        leaf = true;
-        return ;
-    } else if (size <= LESSTRI){
-        leaf = true;
-        if (size == 0)
-            empty = true;
-        return ;
-    }
-//    printf("start \n");
     //start building
     int * lmeshes = NULL;
     int * bmeshes = NULL;
@@ -67,8 +55,21 @@ void DrKd::build(int depth){
         by = Triangles[by].p[Triangles[by].by].y;
         lz = Triangles[lz].p[Triangles[lz].lz].z;
         bz = Triangles[bz].p[Triangles[bz].bz].z;
+        printf("lx: %f, bx: %f, ly: %f, by %f, lz %f, bz %f\n", lx, bx, ly, by, lz, bz);
     }
-    if (type == 1){
+
+    //edge conditions
+    if (depth > MAXDEP){
+        leaf = true;
+        return ;
+    } else if (size <= LESSTRI){
+        leaf = true;
+        if (size == 0)
+            empty = true;
+        return ;
+    }
+//    printf("start \n");
+        if (type == 1){
         lmeshes = lxsorted;
         bmeshes = bxsorted;
     } else if (type == 2){
@@ -95,6 +96,10 @@ void DrKd::build(int depth){
     int olamt = 0;
     switch(type){
         case 1: {
+            if (bestpos == bx){
+                leaf = true;
+                return;
+            }
             lsize = find(bestpos, bxsorted, 1) + 1;
             for (int i = lsize ; i < size ; ++i)
                 if (Triangles[bxsorted[i]].p[Triangles[bxsorted[i]].lx].x <= bestpos)//三角形的最大x点超过了bestpos但是最小没有，此时为交叉
@@ -113,6 +118,10 @@ void DrKd::build(int depth){
             break;
         }
         case 2:{
+            if (bestpos == by){
+                leaf = true;
+                return;
+            }
             lsize = find(bestpos, bysorted, 3) + 1;
             for (int i = lsize ; i < size ; ++i)
                 if (Triangles[bysorted[i]].p[Triangles[bysorted[i]].ly].y <= bestpos)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
@@ -130,6 +139,10 @@ void DrKd::build(int depth){
             break;
          }
         default:{
+            if (bestpos == bz){
+                leaf = true;
+                return;
+            }
             lsize = find(bestpos, bzsorted, 5) + 1;
             for (int i = lsize ; i < size ; ++i)
                 if (Triangles[bzsorted[i]].p[Triangles[bzsorted[i]].lz].z <= bestpos)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
@@ -148,7 +161,7 @@ void DrKd::build(int depth){
             break;
         }
     }
-//    printf("lsize : %d, rsize: %d, dep: %d\n", lson->size, rson->size, depth);
+    printf("lsize : %d, rsize: %d, dep: %d, type : %d best: %f\n", lson->size, rson->size, depth, type,bestpos);
     lson->build(depth+1);
     rson->build(depth+1);
 }
@@ -227,8 +240,6 @@ bool DrKd::testIntersect(const DrRay &ray, DrVector &normal, double d){
     double t = normal * ray.direction;
     if (getSign(t) == 0)
         return false;
-    if (getSign( normal * ray.startpoint) == 0) return false;
-    if (getSign(getIntersection(ray, normal, d)) <= 0) return false;
     return true;
 }
 
@@ -252,22 +263,26 @@ float DrKd::calculatecost( KdTriInfo tri, double& cost )
         leftarea = calculateArea(minx, 1);
         rightarea = calculateArea(minx, 2);
         leftcount = find(minx, bxsorted, 1) + 1;
-        rightcount = size - leftcount;
-        for (int j = leftcount; j < size; ++j)
-            if (Triangles[bxsorted[j]].p[Triangles[bxsorted[j]].lx].x <= minx)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
-                leftcount += 1;
-        cost = costtrav + (leftarea * leftcount + rightarea * rightcount);      
+        rightcount = size - find(minx, lxsorted, 2);
+        leftcount += (size - leftcount - rightcount);
+        rightcount += (size - leftcount - rightcount);
+//        for (int j = leftcount; j < size; ++j)
+//            if (Triangles[bxsorted[j]].p[Triangles[bxsorted[j]].lx].x <= minx)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
+//                leftcount += 1;
+        cost = costtrav + (leftarea * leftcount + rightarea * rightcount);
         bpos = minx;
 //        printf("leftc : %d , %f, rightc : %d , %f\n", leftcount, leftarea, rightcount, rightarea);
         bestcost = costtrav + (leftarea * leftcount + rightarea * rightcount);
         leftarea = calculateArea(maxx, 1);
         rightarea = calculateArea(maxx, 2);
         leftcount = find(maxx, bxsorted, 1) + 1;
-        rightcount = size - leftcount;
-        for (int j = leftcount; j < size; ++j)
-            if (Triangles[bxsorted[j]].p[Triangles[bxsorted[j]].lx].x <= maxx)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
-                leftcount += 1;
-
+        rightcount = size - find(maxx, lxsorted, 2);
+        leftcount += (size - leftcount - rightcount);
+        rightcount += (size - leftcount - rightcount);
+//        for (int j = leftcount; j < size; ++j)
+//            if (Triangles[bxsorted[j]].p[Triangles[bxsorted[j]].lx].x <= maxx)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
+//                leftcount += 1;
+//
         if (bestcost < cost){
             cost = bestcost;
             bpos = maxx;
@@ -276,19 +291,23 @@ float DrKd::calculatecost( KdTriInfo tri, double& cost )
         leftarea = calculateArea(miny, 1);
         rightarea = calculateArea(miny, 2);
         leftcount = find(miny, bysorted, 3) + 1;
-        rightcount = size - leftcount;
-        for (int j = leftcount; j < size; ++j)
-            if (Triangles[bysorted[j]].p[Triangles[bysorted[j]].ly].y <= miny)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
-                leftcount += 1;
+        rightcount = size - find(miny, lysorted, 4);
+        leftcount += (size - leftcount - rightcount);
+        rightcount += (size - leftcount - rightcount);
+//        for (int j = leftcount; j < size; ++j)
+//            if (Triangles[bysorted[j]].p[Triangles[bysorted[j]].ly].y <= miny)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
+//                leftcount += 1;
         cost = costtrav + (leftarea * leftcount + rightarea * rightcount);
         bpos = miny;
         leftarea = calculateArea(maxy, 1);
         rightarea = calculateArea(maxy, 2);
         leftcount = find(maxy, bysorted, 3) + 1;
-        rightcount = size - leftcount;
-        for (int j = leftcount; j < size; ++j)
-            if (Triangles[bysorted[j]].p[Triangles[bysorted[j]].ly].y <= maxy)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
-                leftcount += 1;
+        rightcount = size - find(maxy, lysorted, 4);
+        leftcount += (size - leftcount - rightcount);
+        rightcount += (size - leftcount - rightcount);
+//        for (int j = leftcount; j < size; ++j)
+//            if (Triangles[bysorted[j]].p[Triangles[bysorted[j]].ly].y <= maxy)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
+//                leftcount += 1;
         bestcost = costtrav + (leftarea * leftcount + rightarea * rightcount);
         if (bestcost < cost){
             cost = bestcost;
@@ -298,19 +317,23 @@ float DrKd::calculatecost( KdTriInfo tri, double& cost )
         leftarea = calculateArea(minz, 1);
         rightarea = calculateArea(minz, 2);
         leftcount = find(minz, bzsorted, 5) + 1;
-        rightcount = size - leftcount;
-        for (int j = leftcount; j < size; ++j)
-            if (Triangles[bysorted[j]].p[Triangles[bzsorted[j]].lz].z <= minz)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
-                leftcount += 1;
+        rightcount = size - find(minz, lzsorted, 6);
+        leftcount += (size - leftcount - rightcount);
+        rightcount += (size - leftcount - rightcount);
+//        for (int j = leftcount; j < size; ++j)
+//            if (Triangles[bysorted[j]].p[Triangles[bzsorted[j]].lz].z <= minz)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
+//                leftcount += 1;
         cost = costtrav + (leftarea * leftcount + rightarea * rightcount);
         bpos = minz;
         leftarea = calculateArea(maxz, 1);
         rightarea = calculateArea(maxz, 2);
         leftcount = find(maxz, bzsorted, 5) + 1;
-        rightcount = size - leftcount;
-        for (int j = leftcount; j < size; ++j)
-            if (Triangles[bysorted[j]].p[Triangles[bzsorted[j]].lz].z <= maxz)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
-                leftcount += 1;
+        rightcount = size - find(maxz, lzsorted, 6);
+        leftcount += (size - leftcount - rightcount);
+        rightcount += (size - leftcount - rightcount);
+//        for (int j = leftcount; j < size; ++j)
+//            if (Triangles[bysorted[j]].p[Triangles[bzsorted[j]].lz].z <= maxz)//三角形的最大y点超过了bestpos但是最小没有，此时为交叉
+//                leftcount += 1;
         bestcost = costtrav + (leftarea * leftcount + rightarea * rightcount);
         if (bestcost < cost){
             cost = bestcost;
