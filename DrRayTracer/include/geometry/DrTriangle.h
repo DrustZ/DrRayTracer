@@ -84,7 +84,7 @@ public:
              tex0, tex1, tex2,
              m_v0, m_v1, m_v2,
              e1, e2;//v0 - v1, v0 - v2;
-    double t, beta, gamma, d;
+    double t, beta, gamma, d, s;
     bool insert_value, got_tex;
 };
 

@@ -161,7 +161,7 @@ void DrKd::build(int depth){
             break;
         }
     }
-    printf("lsize : %d, rsize: %d, dep: %d, type : %d best: %f\n", lson->size, rson->size, depth, type,bestpos);
+//    printf("lsize : %d, rsize: %d, dep: %d, type : %d best: %f\n", lson->size, rson->size, depth, type,bestpos);
     lson->build(depth+1);
     rson->build(depth+1);
 }

@@ -29,9 +29,9 @@ DrScene scene = DrScene(4, 0.01, BLACK);
 cv::Mat Result = cv::Mat::zeros(600, 600, CV_32FC3);
 int tempint;
 double tempdouble;
-
-DrVector lookat = DrVector(0,100,-30);
-DrVector up = DrVector(0,0,-1);
+DrVector eye = DrVector(0,0,0);
+DrVector lookat = DrVector(0,100,-40);
+DrVector up = DrVector(0,1,0);
 DrVector light = DrVector(0,9,9);
 
 void workThread(int index);
@@ -46,7 +46,7 @@ int main() {
 
 //    addObjects();
     DrObjReader reader =
-DrObjReader("/Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/OBJS/Touareg.obj",1);
+DrObjReader("/Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/OBJS/CornellBox-Water.obj",300);
     if(reader.read()) reader.load(scene);
     scene.initKd();
     DrCamera::CameraConfigure conf;
@@ -54,14 +54,14 @@ DrObjReader("/Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/OBJS/Touare
     conf.eyedown = -conf.eyeup;
     conf.eyeright = (scene.root->bx - scene.root->lx) * 3 / 4;
     conf.eyeleft = -conf.eyeright;
-    conf.eye_to_img = (scene.root->by - scene.root->ly) / 2;
-    DrVector eye = DrVector((scene.root->bx + scene.root->lx)/2,scene.root->ly - conf.eye_to_img,1.2 * scene.root->bz - 0.5 * scene.root->lz);
+    conf.eye_to_img = (scene.root->by - scene.root->ly) * 4;
+    eye = DrVector((scene.root->bx + scene.root->lx)/2,scene.root->ly - conf.eye_to_img,1.2 * scene.root->bz - 0.5 * scene.root->lz);
 
 //    DrVector eye = DrVector((scene.root->bx + scene.root->lx)/2,scene.root->ly - conf.eye_to_img,1.2 * scene.root->bz - 0.5 * scene.root->lz);
     light.x = eye.x, light.y = eye.y, light.z = eye.z;
     addLighters();
 //    cout << conf.eyeup << " " << conf.eyedown << " " << conf.eyeright << " " << conf.eyeleft <<endl;
-////    conf.open_alias = true;
+    conf.open_alias = true;
     DrCamera camera(conf, scene);
     camera.getEyePosition(eye, lookat, up);
     camera.startProcess(Result);
@@ -172,15 +172,15 @@ void addObjects()
  */
 void addLighters()
 {
-    DrVector dv2 = DrVector(0,-40,200);
+    DrVector dv2 = DrVector(0,-400,200);
     DrPnt<DrLighter> lighter = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.7));
-    dv2 = DrVector(100, 500, 60);
-    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.8));
+    dv2 = DrVector(100, -200, 60);
+    DrPnt<DrLighter> lighter2 = DrPnt<DrLighter>(new DrLighter(dv2, WHITE, 0.3));
     DrVector dvright = DrVector(0, -300, 20);
     DrVector dvdown = DrVector(-20, 60, 200);
-    DrPnt<DrLighter> lighter3 = DrPnt<DrLighter>(new DrLighter(light, WHITE, 0.8));
+    DrPnt<DrLighter> lighter3 = DrPnt<DrLighter>(new DrLighter(light, WHITE, 0.7));
     DrPnt<DrLighter> lighter_rect = DrPnt<DrLighter>(new DrRectLighter(dv2, WHITE, 0.8, dvright, dvdown));
-    scene.addlights(lighter);
+//    scene.addlights(lighter);
     scene.addlights(lighter2);
     scene.addlights(lighter3);
 //    scene.addlights(lighter_rect);

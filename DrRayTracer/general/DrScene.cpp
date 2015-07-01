@@ -33,8 +33,7 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     if (!pnt) {
         return BLACK;
     }
-//    cout << "hey~" << endl;
-    DrVector point = ray.getPoint(dist);
+     DrVector point = ray.getPoint(dist);
      OpticalProperty prop;
      pnt->getAppearance(point, prop);
      DrVector norm = pnt->getNormal(point);
@@ -42,8 +41,8 @@ DrColor DrScene::doRayTracing(const DrRay &ray, double weight, int depth, int& r
     
     route += (weight + 1) * index;//naive, need to be improved
     
-    DrColor color ;
-//    color = WHITE;
+    DrColor color;
+//    color = prop.diffuse;
     //int meet_lighter_index = -1;
 
     for (auto &i: lights){

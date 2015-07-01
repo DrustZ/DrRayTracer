@@ -8,7 +8,7 @@
 
 #include "DrCamera.h"
 DrCamera::DrCamera(CameraConfigure& configure, DrScene &scn):conf(configure),scene(scn){
-    threads = 5;
+    threads = 4;
     
     //一个二维数组，对应每一个像素，
     //作为超级样本之用（反锯齿，每一个项记录对应像素点发出光线追踪物体的路径，如果相邻像素点追踪路径不同，则需要反锯齿化）

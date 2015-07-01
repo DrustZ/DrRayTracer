@@ -42,6 +42,7 @@ bool DrObjReader::read(){
         while(line[i] == ' ') ++i;
         int idx = int(line.find("mtllib"));
         if (idx != string::npos) {
+            string s = trim(line.substr(idx+6)) + 'h';
             string addr = "/Users/zmr/codes/c_c++/Graphics/DrRayTracer/DrRayTracer/OBJS/"+trim(line.substr(idx+6));
             cout << addr;
             mtl.open(addr);
@@ -66,6 +67,7 @@ bool DrObjReader::read(){
                     if (( tmpidx = int(ll.find("Ns")) ) != string::npos) ns = stod(ll.substr(tmpidx+2));
                     else if (( tmpidx = int(ll.find("Tr")) ) != string::npos) tr = stod(ll.substr(tmpidx+2));
                     else if (( tmpidx = int(ll.find("Kd")) ) != string::npos) {
+                        cout << ll << endl;
                         string tmp = ll.substr(tmpidx+2);
                         ss.clear();
                         ss.str(tmp);
@@ -83,10 +85,11 @@ bool DrObjReader::read(){
 
             if (has_mtl){
                 prop.diffuse = DrColor(kd[0],kd[1],kd[2]);
+                cout << prop.diffuse << endl;
                 prop.spec_exp = (ns == 0) ? 1000 : ns;
                 prop.specular = 0.1;
                 prop.reflection = ks;
-                prop.transparency = (tr == 0) ? ( (d == 1) ? 0 : 1 - d) : 1 - tr;
+                prop.transparency = (tr == 0) ? ( (d == 1) ? 0 : 1 - d) : tr;
                 texture = DrPnt<DrTexture>(new DrUniformTexture(prop));
             }
         } else {
@@ -111,7 +114,8 @@ bool DrObjReader::read(){
                         xx = stod(x) * rate;
                         yy = stod(y) * rate;
                         zz = stod(z) * rate;
-                        pnt_normal.push_back(DrVector(xx, yy, zz));
+                        pnt_normal.push_back(DrVector(xx, yy, zz).getNormalize());
+//                        printf("norm : %f, %f, %f\n", xx, yy, zz);
                     }
                     //read texture ordinates
                     else if (line[i+1] == 't'){
@@ -127,9 +131,9 @@ bool DrObjReader::read(){
                         for(; valid(line[i]); ++i)
                             z += line[i];
                         double xx,yy,zz;
-                        xx = stod(x)* rate;
-                        yy = stod(y)* rate;
-                        zz = stod(z)* rate;
+                        xx = stod(x);
+                        yy = stod(y);
+                        zz = stod(z);
                         tex_ord.push_back(DrVector(xx, yy, zz));
                     }
                     //read points
@@ -181,22 +185,35 @@ bool DrObjReader::read(){
                             index3 -= 1;
                         }
                         bool refreaction = prop.reflection > 0 ? true : false;
-                        DrTriangle tri = DrTriangle(this->points[index1], this->points[index2], this->points[index3], texture, refreaction, 0, 1.5);
+                        DrTriangle tri = DrTriangle(this->points[index1], this->points[index2], this->points[index3], texture, refreaction, 0, 1.3);
                         
                         int pos = int(internal[0].find('/'));
+                        int pos2 = int(internal[1].find('/'));
+                        int pos3 = int(internal[2].find('/'));
                         if (pos != string::npos){
                             if (internal[0][pos+1] != '/' && internal[0][pos+1] != ' '){
                                 tidx1 = atoi(internal[0].substr(pos+1).c_str());
-                                tidx2 = atoi(internal[1].substr(pos+1).c_str());
-                                tidx3 = atoi(internal[2].substr(pos+1).c_str());
+                                tidx2 = atoi(internal[1].substr(pos2+1).c_str());
+                                tidx3 = atoi(internal[2].substr(pos3+1).c_str());
+                                internal[0] = internal[0].substr(pos+1);
+                                internal[1] = internal[1].substr(pos2+1);
+                                internal[2] = internal[2].substr(pos3+1);
                                 tri.setText(tex_ord[tidx1-1], tex_ord[tidx2-1], tex_ord[tidx3-1]);
+//                                printf("text : %d %d %d\n", tidx1, tidx2, tidx3);
+                            } else {
+                                internal[0] = internal[0].substr(pos+1);
+                                internal[1] = internal[1].substr(pos2+1);
+                                internal[2] = internal[2].substr(pos3+1);
                             }
-                            pos = int(internal[0].substr(pos+1).find('/'));
+                            pos = int(internal[0].find('/'));
+                            pos2 = int(internal[1].find('/'));
+                            pos3 = int(internal[2].find('/'));
                             if (pos != string::npos){
                                 nidx1 = atoi(internal[0].substr(pos+1).c_str());
-                                nidx2 = atoi(internal[1].substr(pos+1).c_str());
-                                nidx3 = atoi(internal[2].substr(pos+1).c_str());
+                                nidx2 = atoi(internal[1].substr(pos2+1).c_str());
+                                nidx3 = atoi(internal[2].substr(pos3+1).c_str());
                                 tri.setVn(pnt_normal[nidx1-1], pnt_normal[nidx2-1], pnt_normal[nidx3-1]);
+//                                printf("n : %d %d %d\n", nidx1, nidx2, nidx3);
                             }
                         }
                         triangles.push_back(tri);
@@ -267,7 +284,8 @@ std::string DrObjReader::trim(const std::string &s){
     }
     std::string t = s;
     t.erase(0,t.find_first_not_of(' '));
-    t.erase(t.find_last_not_of('\n')+1);
+    t.erase(t.find_last_not_of("\n")+1);
+    t.erase(t.find_last_not_of("\r")+1);
     t.erase(t.find_last_not_of(' ') + 1);
     return t;
 }

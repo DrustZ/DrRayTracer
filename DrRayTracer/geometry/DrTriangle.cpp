@@ -5,7 +5,7 @@
 //  Created by 明瑞 on 15/5/19.
 //  Copyright (c) 2015年 明瑞. All rights reserved.
 //
-
+#include "DrMath.h"
 #include "DrTriangle.h"
 DrTriangle::DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v3, DrPnt<DrTexture>& tex, bool ref, double refr = 0.5, double trans = 1.5): m_v0(v1), m_v1(v2), m_v2(v3), DrGeometry(tex, ref, refr, trans){
     e1 = v2 - v1;
@@ -14,6 +14,7 @@ DrTriangle::DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v
     insert_value = false;
     got_tex = false;
     d = normal * v1;
+    s = fabs(e1.cross(e2).modulus());
 }
 
 DrTriangle::DrTriangle(const DrVector &v1, const DrVector &v2, const DrVector &v3){
@@ -91,7 +92,15 @@ void DrTriangle::setText(DrVector &t1, DrVector &t2, DrVector &t3){
 DrVector DrTriangle::getNormal(const DrVector &v){
     if (!insert_value)
         return normal;
-    else return normal;
+    else {
+        double S0 = fabs((v - m_v0).cross(v - m_v1).modulus());
+        double S1 = fabs((v - m_v1).cross(v - m_v2).modulus());
+        double S2 = fabs((v - m_v2).cross(v - m_v0).modulus());
+        double lamda0 = S1 / s;
+        double lamda1 = S2 / s;
+        double lamda2 = S0 / s;
+        return (normal_v1 * lamda0 + normal_v2 * lamda1 + normal_v3 * lamda2).getNormalize();
+    }
 }
 
 bool DrTriangle::getRefraction(DrVector& refraction, const DrVector& point,

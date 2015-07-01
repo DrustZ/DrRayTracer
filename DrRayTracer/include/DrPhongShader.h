@@ -43,7 +43,7 @@ public:
                     app.specular * pow(cosin, app.spec_exp);
         }
         //环境光
-//        ret += ambient_color * app.ambient;
+        ret += ambient_color * app.ambient;
 
 //        ret.setToRange();
         
