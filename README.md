@@ -35,3 +35,7 @@ A plain ray-traycer.
 ![show 5](http://f3.topitme.com/3/4d/74/1135773165938744d3o.jpg)
 
 ####notice: you should use Xcode and link 'OpenCV' to run the project. But you can write Cmake to run any where.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/DrustZ/drraytracer/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
